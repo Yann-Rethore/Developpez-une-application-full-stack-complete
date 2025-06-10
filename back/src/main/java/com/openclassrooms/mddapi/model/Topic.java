@@ -22,6 +22,9 @@ public class Topic {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Column(nullable = false, length = 500)
+    private String description;
+
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Article> articles = new ArrayList<>();
 }
