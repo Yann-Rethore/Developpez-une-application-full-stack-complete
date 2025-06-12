@@ -1,7 +1,7 @@
 package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.model.Article;
-import com.openclassrooms.mddapi.model.Utilisateur;
+import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class ArticleService {
         articleRepository.deleteById(id);
     }
 
-    public List<Article> findArticlesByAbonnements(Utilisateur utilisateur) {
+    public List<Article> findArticlesByAbonnements(User utilisateur) {
         Set<Long> topicIds = utilisateur.getAbonnements().stream()
                 .map(topic -> topic.getId())
                 .collect(java.util.stream.Collectors.toSet());

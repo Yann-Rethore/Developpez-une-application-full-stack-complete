@@ -24,7 +24,7 @@ public class Commentaire {
 
     @ManyToOne
     @JoinColumn(name = "utilisateur_id", nullable = false)
-    private Utilisateur createur;
+    private User createur;
 
     @ManyToOne
     @JoinColumn(name = "article_id", nullable = false)
