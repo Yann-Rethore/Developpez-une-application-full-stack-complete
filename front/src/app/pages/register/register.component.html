@@ -1,0 +1,23 @@
+<h2>Inscription</h2>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <label>
+    Nom d'utilisateur :
+    <input formControlName="username" />
+  </label>
+  <div *ngIf="submitted && registerForm.controls['username'].invalid">Champ requis</div>
+
+  <label>
+    Email :
+    <input formControlName="email" type="email" />
+  </label>
+  <div *ngIf="submitted && registerForm.controls['email'].invalid">Email invalide</div>
+
+  <label>
+    Mot de passe :
+    <input formControlName="password" type="password" />
+  </label>
+  <div *ngIf="submitted && registerForm.controls['password'].invalid">Champ requis</div>
+
+  <button mat-raised-button color="primary" type="submit">S'inscrire</button>
+</form>
+
