@@ -1,0 +1,17 @@
+<h2>Connexion</h2>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <label>
+    Identifiant :
+    <input formControlName="identifier" />
+  </label>
+  <div *ngIf="submitted && loginForm.controls['identifier'].invalid">Champ requis</div>
+
+  <label>
+    Mot de passe :
+    <input formControlName="password" type="password" />
+  </label>
+  <div *ngIf="submitted && loginForm.controls['password'].invalid">Champ requis</div>
+
+  <button mat-raised-button color="primary" type="submit">Se connecter</button>
+</form>
+<div *ngIf="error" style="color:red;">Identifiants invalides</div>
