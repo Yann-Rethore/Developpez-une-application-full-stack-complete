@@ -13,7 +13,7 @@ import java.util.HashSet;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Utilisateur {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +27,7 @@ public class Utilisateur {
 
     @Column(nullable = false, unique = true)
     private String username;
+
     @ManyToMany
     @JoinTable(
             name = "utilisateur_abonnements",

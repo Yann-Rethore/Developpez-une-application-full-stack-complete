@@ -31,7 +31,7 @@ public class Article {
 
     @ManyToOne
     @JoinColumn(name = "auteur_id", nullable = false)
-    private Utilisateur auteur;
+    private User auteur;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
