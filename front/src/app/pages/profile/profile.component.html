@@ -1,0 +1,14 @@
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()" *ngIf="profile$ | async as profile">
+  <label>Nom d'utilisateur : <input formControlName="username"></label>
+  <label>Email : <input formControlName="email"></label>
+  <label>Nouveau mot de passe : <input type="password" formControlName="password"></label>
+  <button type="submit" mat-raised-button color="primary">Mettre à jour</button>
+</form>
+
+<h3>Mes abonnements</h3>
+<ul *ngIf="profile$ | async as profile">
+  <li *ngFor="let id of profile.abonnements">
+    Thème #{{ id }}
+    <button mat-button color="warn" (click)="unsubscribe(id)">Se désabonner</button>
+  </li>
+</ul>

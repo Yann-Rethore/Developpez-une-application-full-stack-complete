@@ -1,6 +1,18 @@
 <h2>Liste des thèmes</h2>
 <ul>
-  <li *ngFor="let topic of topics">
-    <strong>{{ topic.name }}</strong> : {{ topic.description }}
-  </li>
+  <ng-container *ngIf="topics$ | async as topics; else loading">
+    <ng-container *ngIf="subscribedTopicIds$ | async as subscribedIds">
+      <li *ngFor="let topic of topics">
+        <strong>{{ topic.name }}</strong> : {{ topic.description }}
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="isSubscribed(topic.id, subscribedIds)"
+          (click)="toggleSubscription(topic.id, subscribedIds)">
+          {{ isSubscribed(topic.id, subscribedIds) ? 'Déjà abonné' : "S'abonner" }}
+        </button>
+      </li>
+    </ng-container>
+  </ng-container>
 </ul>
+<ng-template #loading>Chargement...</ng-template>

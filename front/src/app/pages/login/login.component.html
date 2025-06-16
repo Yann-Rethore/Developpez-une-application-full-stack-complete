@@ -4,14 +4,13 @@
     Identifiant :
     <input formControlName="identifier" />
   </label>
-  <div *ngIf="submitted && loginForm.controls['identifier'].invalid">Champ requis</div>
-
   <label>
     Mot de passe :
-    <input formControlName="password" type="password" />
+    <input type="password" formControlName="password" />
   </label>
-  <div *ngIf="submitted && loginForm.controls['password'].invalid">Champ requis</div>
-
-  <button mat-raised-button color="primary" type="submit">Se connecter</button>
+  <button type="submit">Connexion</button>
 </form>
-<div *ngIf="error" style="color:red;">Identifiants invalides</div>
+
+<div *ngIf="success$ | async as success">
+  <span *ngIf="!success" class="error">Identifiants invalides</span>
+</div>

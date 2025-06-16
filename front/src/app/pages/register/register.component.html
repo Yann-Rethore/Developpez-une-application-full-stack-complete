@@ -17,7 +17,16 @@
     <input formControlName="password" type="password" />
   </label>
   <div *ngIf="submitted && registerForm.controls['password'].invalid">Champ requis</div>
-
+  <div *ngIf="submitted && registerForm.controls['password'].errors?.['passwordComplexity']" class="error">
+  Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.
+  </div>
   <button mat-raised-button color="primary" type="submit">S'inscrire</button>
 </form>
+
+<div *ngIf="success$ | async as successValue">
+  <ng-container *ngIf="successValue !== null">
+    <span *ngIf="successValue" class="success">Inscription réussie !</span>
+    <span *ngIf="!successValue" class="error">Erreur lors de l'inscription.</span>
+  </ng-container>
+</div>
 
