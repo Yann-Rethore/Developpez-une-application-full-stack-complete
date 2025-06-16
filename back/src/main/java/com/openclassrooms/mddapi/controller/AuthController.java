@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+import java.util.HashMap;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -24,9 +27,16 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest request) {
         User user = userService.authenticate(request.getIdentifier(), request.getPassword());
         String token = jwtUtil.generateToken(user.getUsername());
-        return ResponseEntity.ok().body(token);
+        if (token == null) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Invalid credentials");
+            return ResponseEntity.status(401).body(error);
+        }
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+        return ResponseEntity.ok(response);
     }
 }

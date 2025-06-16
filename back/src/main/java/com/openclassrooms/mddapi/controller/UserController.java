@@ -1,20 +1,72 @@
 package com.openclassrooms.mddapi.controller;
 
+import com.openclassrooms.mddapi.dto.UserProfileDTO;
+import com.openclassrooms.mddapi.dto.UserProfileUpdateDTO;
 import com.openclassrooms.mddapi.model.User;
-import com.openclassrooms.mddapi.service.UserService;
+import com.openclassrooms.mddapi.model.Topic;
+import com.openclassrooms.mddapi.repository.UserRepository;
+import com.openclassrooms.mddapi.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
-@RequestMapping("/api/utilisateurs")
+@RequestMapping("/api/profile")
 public class UserController {
 
-    private final UserService utilisateurService;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-    public UserController(UserService utilisateurService) {
-        this.utilisateurService = utilisateurService;
+    private TopicRepository topicRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @GetMapping
+    public ResponseEntity<UserProfileDTO> getProfile(Principal principal) {
+        String username = principal.getName();
+        User user = userRepository.findWithAbonnementsByUsername(username).orElseThrow();
+
+        UserProfileDTO dto = new UserProfileDTO();
+        dto.setUsername(user.getUsername());
+        dto.setEmail(user.getEmail());
+        dto.setAbonnements(
+                user.getAbonnements().stream()
+                        .map(Topic::getId)
+                        .collect(Collectors.toList())
+        );
+
+        return ResponseEntity.ok(dto);
     }
 
+    @PutMapping
+    public ResponseEntity<?> updateProfile(Principal principal, @RequestBody UserProfileUpdateDTO updates) {
+        String username = principal.getName();
+        User user = userRepository.findWithAbonnementsByUsername(username).orElseThrow();
 
+        if (updates.getUsername() != null) {
+            user.setUsername(updates.getUsername());
+        }
+        if (updates.getEmail() != null) {
+            user.setEmail(updates.getEmail());
+        }
+        if (updates.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(updates.getPassword()));
+        }
+        if (updates.getDesabonnements() != null && !updates.getDesabonnements().isEmpty()) {
+            List<Topic> toRemove = user.getAbonnements().stream()
+                    .filter(t -> updates.getDesabonnements().contains(t.getId()))
+                    .collect(Collectors.toList());
+            user.getAbonnements().removeAll(toRemove);
+        }
+
+        userRepository.save(user);
+        return ResponseEntity.ok().build();
+    }
 }
