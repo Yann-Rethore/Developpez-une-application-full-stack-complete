@@ -15,4 +15,16 @@ export class TopicService {
   getAllTopics(): Observable<TopicDto[]> {
     return this.http.get<TopicDto[]>(this.apiUrl);
   }
+
+  subscribeToTopic(topicId: number) {
+  return this.http.get(`${this.apiUrl}/subscribe/${topicId}`);
+  }
+
+  unsubscribeFromTopic(topicId: number) {
+  return this.http.get(`${this.apiUrl}/unsubscribe/${topicId}`);
+  }
+
+  getUserSubscriptions(): Observable<number[]> {
+  return this.http.get<number[]>(`${this.apiUrl}/me/subscriptions`);
+  }
 }
