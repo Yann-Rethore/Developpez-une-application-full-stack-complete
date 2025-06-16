@@ -1,6 +1,22 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Subject, Observable, of, switchMap, catchError, startWith, map, filter } from 'rxjs';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { Router } from '@angular/router';
+
+function passwordComplexityValidator(control: AbstractControl): ValidationErrors | null {
+  const value = control.value || '';
+  const hasMinLength = value.length >= 8;
+  const hasUpperCase = /[A-Z]/.test(value);
+  const hasLowerCase = /[a-z]/.test(value);
+  const hasNumber = /\d/.test(value);
+  const hasSpecialChar = /[^A-Za-z0-9]/.test(value);
+
+  return hasMinLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar
+    ? null
+    : { passwordComplexity: true };
+}
 
 
 @Component({
@@ -11,24 +27,44 @@ import { AuthService } from '../../services/auth.service';
 export class RegisterComponent {
   registerForm: FormGroup;
   submitted = false;
-  success = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  // Observable pour le statut de l'inscription
+  private submit$ = new Subject<void>();
+  success$!: Observable<boolean | null>;
+
+  constructor(
+    private fb: FormBuilder, 
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required, passwordComplexityValidator]
+    });
+
+    this.success$ = this.submit$.pipe(
+      switchMap(() => {
+        this.submitted = true;
+        if (this.registerForm.valid) {
+          return this.authService.register(this.registerForm.value).pipe(
+            map(() => true),
+            catchError(() => of(false))
+          );
+        }
+        return of(false);
+      }),
+      startWith(false)
+    );
+
+    this.success$.pipe(
+      filter(success => success === true)
+    ).subscribe(() => {
+      this.router.navigate(['/login']);
     });
   }
 
-   onSubmit() {
-    this.submitted = true;
-    console.log('Form submitted', this.registerForm.value);
-    if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe({
-        next: () => this.success = true,
-        error: () => this.success = false
-      });
-    }
+  onSubmit() {
+    this.submit$.next();
   }
 }
