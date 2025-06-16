@@ -1,0 +1,22 @@
+<form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
+  <label>Titre : <input formControlName="titre"></label>
+  <div *ngIf="submitted && articleForm.controls['titre'].invalid">Titre requis</div>
+
+  <label>Contenu : <textarea formControlName="contenu"></textarea></label>
+  <div *ngIf="submitted && articleForm.controls['contenu'].invalid">Contenu requis</div>
+
+  <label>Thème :
+    <select formControlName="themeId">
+      <option value="" disabled selected>Choisir un thème</option>
+      <option *ngFor="let topic of topics$ | async" [value]="topic.id">{{ topic.name }}</option>
+    </select>
+  </label>
+  <div *ngIf="submitted && articleForm.controls['themeId'].invalid">Thème requis</div>
+
+  <button type="submit" mat-raised-button color="primary">Créer l'article</button>
+</form>
+
+<div *ngIf="success$ | async as success">
+    <span *ngIf="success" class="success">Inscription réussie !</span>
+    <span *ngIf="!success" class="error">Erreur lors de l'inscription.</span>
+</div>

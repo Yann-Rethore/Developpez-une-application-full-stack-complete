@@ -1,0 +1,13 @@
+<h2>Articles de mes abonnements</h2>
+<ul *ngIf="articles$ | async as state">
+  <li *ngFor="let article of state.data">
+    <a [routerLink]="['/article', article.id]">
+      <strong>{{ article.titre }}</strong>
+    </a>
+    <small>Par {{ article.auteurUsername }} le {{ article.date | date:'short' }}</small>
+    <p>{{ article.contenu }}</p>
+  </li>
+  <div *ngIf="state.loading">Chargement...</div>
+  <div *ngIf="state.error">Erreur lors du chargement des articles.</div>
+</ul>
+ 

@@ -1,0 +1,26 @@
+<div *ngIf="article$ | async as article">
+  <h2>{{ article.titre }}</h2>
+  <p><em>Par {{ article.auteurUsername }} le {{ article.date | date:'short' }}</em></p>
+  <p>{{ article.contenu }}</p>
+  <p><strong>Thème :</strong> {{ article.themeName }}</p>
+
+  <hr>
+  <h3>Commentaires</h3>
+  <div *ngIf="article.commentaires?.length; else noComments">
+    <div *ngFor="let commentaire of article.commentaires">
+      <p>{{ commentaire.contenu }}</p>
+      <small>Par {{ commentaire.createurUsername }} le {{ commentaire.date | date:'short' }}</small>
+      <hr>
+    </div>
+  </div>
+  <ng-template #noComments>
+    <p>Aucun commentaire pour cet article.</p>
+  </ng-template>
+
+  <h3>Ajouter un commentaire</h3>
+  <form [formGroup]="commentaireForm" (ngSubmit)="ajouterCommentaire()">
+    <textarea formControlName="contenu" placeholder="Votre commentaire"></textarea>
+    <button type="submit" [disabled]="commentaireForm.invalid">Envoyer</button>
+  </form>
+  <div *ngIf="commentaireSuccess" class="success">Commentaire ajouté !</div>
+</div>
