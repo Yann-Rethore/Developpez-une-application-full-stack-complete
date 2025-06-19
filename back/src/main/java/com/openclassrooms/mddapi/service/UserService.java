@@ -1,11 +1,15 @@
 package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.dto.RegisterRequest;
+import com.openclassrooms.mddapi.dto.TopicDto;
 import com.openclassrooms.mddapi.model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -13,6 +17,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -35,4 +41,7 @@ public class UserService {
         }
         throw new RuntimeException("Identifiants invalides");
     }
+
+
+
 }

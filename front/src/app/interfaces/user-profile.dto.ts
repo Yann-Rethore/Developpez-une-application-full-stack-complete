@@ -1,7 +1,9 @@
+import { TopicDto } from './topic.dto';
+
 export interface UserProfileDTO {
   username: string;
   email: string;
-  abonnements: number[];
+  abonnements: TopicDto[];
 }
 
 export interface UserProfileUpdateDTO {
