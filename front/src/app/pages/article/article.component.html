@@ -1,22 +1,37 @@
-<form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
-  <label>Titre : <input formControlName="titre"></label>
-  <div *ngIf="submitted && articleForm.controls['titre'].invalid">Titre requis</div>
+<button mat-icon-button class="back-btn" (click)="goBack()" aria-label="Retour">
+  <mat-icon>arrow_back</mat-icon>
+</button>
 
-  <label>Contenu : <textarea formControlName="contenu"></textarea></label>
-  <div *ngIf="submitted && articleForm.controls['contenu'].invalid">Contenu requis</div>
+<h2 class="form-title">Créer un nouvel article</h2>
+<form [formGroup]="articleForm" (ngSubmit)="onSubmit()" class="article-form">
 
-  <label>Thème :
-    <select formControlName="themeId">
-      <option value="" disabled selected>Choisir un thème</option>
+<div class="form-group">
+    <label for="themeId">Thème :</label>
+    <select id="themeId" formControlName="themeId">
+      <option value="" disabled>Choisir un thème</option>
       <option *ngFor="let topic of topics$ | async" [value]="topic.id">{{ topic.name }}</option>
     </select>
-  </label>
-  <div *ngIf="submitted && articleForm.controls['themeId'].invalid">Thème requis</div>
+    <div *ngIf="submitted && articleForm.controls['themeId'].invalid" class="error">Thème requis</div>
+  </div>
 
-  <button type="submit" mat-raised-button color="primary">Créer l'article</button>
+  <div class="form-group">
+    <label for="titre">Titre :</label>
+    <input id="titre" formControlName="titre" />
+    <div *ngIf="submitted && articleForm.controls['titre'].invalid" class="error">Titre requis</div>
+  </div>
+
+  <div class="form-group">
+    <label for="contenu">Contenu :</label>
+    <textarea id="contenu" formControlName="contenu"></textarea>
+    <div *ngIf="submitted && articleForm.controls['contenu'].invalid" class="error">Contenu requis</div>
+  </div>
+
+  
+
+  <button type="submit" mat-raised-button color="primary" class="submit-btn">Créer l'article</button>
 </form>
 
 <div *ngIf="success$ | async as success">
-    <span *ngIf="success" class="success">Inscription réussie !</span>
-    <span *ngIf="!success" class="error">Erreur lors de l'inscription.</span>
+  <span *ngIf="success" class="success">Article créé avec succès !</span>
+  <span *ngIf="!success" class="error">Erreur lors de la création de l'article.</span>
 </div>
