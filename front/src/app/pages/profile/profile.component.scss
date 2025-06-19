@@ -1,0 +1,151 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5px;
+}
+
+.form-title {
+  text-align: center;
+  padding-top: 48px; // Ajuste la valeur selon le rendu souhaité
+  margin-bottom: 24px;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.centered {
+  text-align: center;
+  margin-top: 0;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.article-form {
+  width: 33vw;
+  min-width: 280px;
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 18px;
+  width: 100%;
+}
+
+label {
+  margin-bottom: 6px;
+  font-size: 1.1rem;
+  font-weight: 400;
+  text-align: left;
+  width: 100%;
+}
+
+select,
+input,
+textarea {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 6px;           // même arrondi partout
+  border: 1.5px solid #673ab7;  // même couleur partout
+  margin-bottom: 4px;
+  background: #fff;
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.submit-btn {
+  min-width: 180px;      /* Largeur minimale identique */
+  width: 200px;          /* Largeur fixe pour tous */
+  height: 48px;          /* Hauteur confortable */
+  font-size: 1.1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centre le texte horizontalement */
+  text-align: center;      /* Centre le texte à l'intérieur */
+  border-radius: 6px;
+}
+
+.error {
+  color: #c00;
+  font-size: 0.95rem;
+  margin-top: 2px;
+}
+
+.success {
+  color: #2e7d32;
+}
+
+.themes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  margin-top: 32px;
+  padding: 0 32px;
+}
+
+.theme-card {
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 24px 32px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 140px;
+}
+
+.theme-title {
+  font-size: 1.1rem;
+  font-weight: 350;
+  margin-bottom: 8px;
+}
+
+.theme-description {
+  color: #444;
+  font-size: 1rem;
+  margin-bottom: 18px;
+  flex: 1;
+}
+
+.themes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); // 2 colonnes
+  gap: 32px;
+  margin-top: 32px;
+  padding: 0 32px; // Padding sur les côtés
+  width: 100vw;    // Prend toute la largeur de la fenêtre
+  box-sizing: border-box;
+}
+
+.unsubscribe-btn {
+  min-width: 180px;      /* Largeur minimale identique */
+  width: 200px;          /* Largeur fixe pour tous */
+  height: 48px;          /* Hauteur confortable */
+  font-size: 1.1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  text-align: center;      
+  border-radius: 6px;
+  align-self: center; 
+  margin-top: 16px;   
+}

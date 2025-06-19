@@ -4,10 +4,12 @@ import { ArticleService } from '../../services/article.service';
 import { ArticleDto } from '../../interfaces/article.dto';
 import { Observable, Subject, switchMap, startWith, tap } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-article-detail',
-  templateUrl: './article-detail.component.html'
+  templateUrl: './article-detail.component.html',
+  styleUrls: ['./article-detail.component.scss'],
 })
 export class ArticleDetailComponent implements OnInit {
   article$!: Observable<ArticleDto>;
@@ -18,7 +20,9 @@ export class ArticleDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private articleService: ArticleService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private location: Location
+
   ) {
     this.commentaireForm = this.fb.group({
       contenu: ['', Validators.required]
@@ -35,7 +39,7 @@ export class ArticleDetailComponent implements OnInit {
       )
     );
   }
-  
+
   ajouterCommentaire() {
     if (this.commentaireForm.valid) {
       const contenu = this.commentaireForm.value.contenu;
@@ -46,5 +50,9 @@ export class ArticleDetailComponent implements OnInit {
         this.refresh$.next(); // Pour recharger l'article et ses commentaires si besoin
       });
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

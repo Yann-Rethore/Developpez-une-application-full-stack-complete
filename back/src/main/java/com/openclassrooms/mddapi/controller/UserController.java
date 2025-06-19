@@ -1,11 +1,14 @@
 package com.openclassrooms.mddapi.controller;
 
+import com.openclassrooms.mddapi.dto.TopicDto;
 import com.openclassrooms.mddapi.dto.UserProfileDTO;
 import com.openclassrooms.mddapi.dto.UserProfileUpdateDTO;
+import com.openclassrooms.mddapi.dto.TopicDto;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.repository.TopicRepository;
+import com.openclassrooms.mddapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +30,8 @@ public class UserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public ResponseEntity<UserProfileDTO> getProfile(Principal principal) {
@@ -38,10 +43,9 @@ public class UserController {
         dto.setEmail(user.getEmail());
         dto.setAbonnements(
                 user.getAbonnements().stream()
-                        .map(Topic::getId)
-                        .collect(Collectors.toList())
+                        .map(topic -> new TopicDto(topic.getId(), topic.getName(), topic.getDescription()))
+                        .collect(Collectors.toSet())
         );
-
         return ResponseEntity.ok(dto);
     }
 

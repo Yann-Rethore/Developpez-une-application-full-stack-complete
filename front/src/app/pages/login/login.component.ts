@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Subject, Observable, of, switchMap, catchError, map, startWith, filter } from 'rxjs';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder, 
     private authService: AuthService, 
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {
     this.loginForm = this.fb.group({
       identifier: ['', Validators.required],
@@ -52,5 +54,9 @@ export class LoginComponent {
 
   onSubmit() {
     this.submit$.next();
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

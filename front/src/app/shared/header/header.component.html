@@ -3,11 +3,13 @@
     <img src="/assets/logo_p6.png" alt="LOGO" style="height:40px;">
   </div>
   <div class="header-links">
-    <a routerLink="/article/abonnes">Articles</a>
-    <a routerLink="/themes">Thèmes</a>
-    <a routerLink="/profile" title="Profil">
-      <mat-icon>account_circle</mat-icon>
+    <a href="#" class="logout-link" (click)="logout()">Se déconnecter</a>
+    <a routerLink="/article/abonnes" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Articles</a>
+    <a routerLink="/themes" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Thèmes</a>
+    <a routerLink="/profile" title="Profil" routerLinkActive="active-profile" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="icon-circle">
+             <mat-icon>person_outline</mat-icon>
+        </span>
     </a>
-    <a href="#" (click)="logout()">Se déconnecter</a>
   </div>
 </nav>

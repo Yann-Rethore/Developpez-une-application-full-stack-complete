@@ -1,0 +1,128 @@
+.back-btn {
+  position: fixed;
+  top: 32px;
+  left: 32px;
+  z-index: 100;
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  padding: 32px 0 0 0;
+}
+
+.back-btn mat-icon {
+  font-size: 3rem !important; // Agrandit l’icône
+  line-height: 1;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.commentaire-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 33vw;         // largeur totale du bloc username + commentaire
+  min-width: 320px;
+  max-width: 100%;
+  margin: 0 auto 20px auto;
+}
+
+.comment-username {
+  color: #333;
+  padding-right: 12px; // espace à droite du nom
+  white-space: nowrap;
+}
+
+.comment-content {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 12px 16px;
+  min-height: calc(1.2em * 4);
+  color: #333;
+  flex :1;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0 auto;
+  text-align: left; // Aligne le texte à gauche
+}
+
+.comment-form-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  justify-content: center; // Centre le formulaire horizontalement
+  margin-left: 0;
+  margin-right: 0;
+  justify-content: center; // Centre le texte dans le rectangle
+  text-align: center;
+}
+
+.comment-textarea {
+  flex: none;
+  width: 50vw;           
+  min-width: 240px;
+  max-width: 100%;
+  min-height: 80px;
+  max-height: 200px;
+  font-size: 1rem;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1.5px solid #333;
+  background: #fafafa;
+  box-sizing: border-box;
+  resize: vertical;
+  margin-left: 0;
+  margin-right: 0;
+  justify-content: center; // Centre le texte dans le rectangle
+}
+
+.comment-submit-btn {
+  margin-left: 8px;
+  color: #673ab7; 
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment-submit-btn mat-icon {
+  font-size: 3rem !important; // Agrandit l’icône
+  line-height: 1;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment-submit-btn.mat-icon-button.mat-primary[disabled] {
+  color: #673ab7 !important; // couleur primary forcée même désactivé
+  opacity: 0.5;              // optionnel : effet visuel pour montrer qu'il est désactivé
+}
+
+.rotate-send {
+  transform: rotate(-45deg); // Ajuste l'angle selon l'effet désiré
+}
+
+.page-container {
+  width: 80vw;         // 2/3 de la largeur de la fenêtre
+  margin-left: 15vw;   // 1/6 à gauche
+  margin-right: 5vw;  // 1/6 à droite
+  box-sizing: border-box;
+}

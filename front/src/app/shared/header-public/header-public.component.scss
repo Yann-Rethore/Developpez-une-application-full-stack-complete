@@ -1,8 +1,8 @@
 .header-nav {
+  height: 80px;
+  min-height: 80px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
 }
 
 .header-logo {

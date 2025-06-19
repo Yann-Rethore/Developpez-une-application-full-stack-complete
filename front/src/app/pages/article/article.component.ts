@@ -5,10 +5,12 @@ import { TopicService } from '../../services/topic.service';
 import { ArticleCreateDTO } from '../../interfaces/article-create.dto';
 import { TopicDto } from '../../interfaces/topic.dto';
 import { Observable, Subject, of, switchMap, catchError, startWith, map } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-article',
-  templateUrl: './article.component.html'
+  templateUrl: './article.component.html',
+  styleUrls: ['./article.component.scss']
 })
 export class ArticleComponent implements OnInit {
   articleForm: FormGroup;
@@ -21,7 +23,8 @@ export class ArticleComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private articleService: ArticleService,
-    private topicService: TopicService
+    private topicService: TopicService,
+    private location: Location
   ) {
     this.articleForm = this.fb.group({
       titre: ['', Validators.required],
@@ -51,5 +54,9 @@ export class ArticleComponent implements OnInit {
 
   onSubmit() {
     this.submit$.next();
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -12,5 +13,5 @@ import java.util.List;
 public class UserProfileDTO {
     private String username;
     private String email;
-    private List<Long> abonnements;
+    private Set<TopicDto> abonnements;
 }
