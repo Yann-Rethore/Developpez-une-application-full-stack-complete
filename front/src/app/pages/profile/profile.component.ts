@@ -3,14 +3,17 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserProfileDTO, UserProfileUpdateDTO } from '../../interfaces/user-profile.dto';
 import { ProfileService } from '../../services/profile.service';
 import { Observable, Subject, merge, of, switchMap, tap, startWith } from 'rxjs';
+import { TopicDto } from '../../interfaces/topic.dto';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html'
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   profile$!: Observable<UserProfileDTO>;
+
 
   // Triggers pour les actions
   private updateProfile$ = new Subject<UserProfileUpdateDTO>();
