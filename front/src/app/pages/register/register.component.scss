@@ -1,0 +1,86 @@
+.back-btn {
+  position: fixed;
+  top: 32px;
+  left: 32px;
+  z-index: 100;
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  padding: 32px 0 0 0;
+}
+
+.back-btn mat-icon {
+  font-size: 3rem !important; // Agrandit l’icône
+  line-height: 1;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.centered {
+  text-align: center;
+  margin-top: 48px;
+  font-size: 1.8rem; 
+  font-weight: 300;  
+}
+
+.login-form {
+  width: 25vw;      
+  min-width: 260px;    // Pour éviter que ce soit trop petit sur mobile
+  margin: 32px auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; // Aligne le contenu à gauche
+  margin-bottom: 18px;
+  width: 100%; // Prend toute la largeur du formulaire
+}
+
+label {
+  margin-bottom: 6px;
+  font-size: 1.2rem;
+  font-weight: 300;
+  text-align: left; // Aligne le texte à gauche
+  width: 100%;
+}
+
+input {
+  width: 100%;
+  height: 30px;
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 2px solid #333;
+  text-align: left;
+}
+
+.validation-sbm {
+  background: #673ab7 !important;
+  color: #fff !important;
+  border: 2px solid #673ab7 !important; // Bordure identique à celle des autres formulaires
+  box-shadow: none !important;
+  min-width: 180px;      /* Largeur minimale identique */
+  width: 200px;          /* Largeur fixe pour tous */
+  height: 48px;          /* Hauteur confortable */
+  font-size: 1.1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centre le texte horizontalement */
+  text-align: center;      /* Centre le texte à l'intérieur */
+  border-radius: 6px;
+}

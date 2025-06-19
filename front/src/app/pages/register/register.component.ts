@@ -4,9 +4,11 @@ import { AuthService } from '../../services/auth.service';
 import { Subject, Observable, of, switchMap, catchError, startWith, map, filter } from 'rxjs';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 function passwordComplexityValidator(control: AbstractControl): ValidationErrors | null {
   const value = control.value || '';
+  console.log('Password value:', value); // <-- Ajout du log
   const hasMinLength = value.length >= 8;
   const hasUpperCase = /[A-Z]/.test(value);
   const hasLowerCase = /[a-z]/.test(value);
@@ -35,13 +37,14 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder, 
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {
     this.registerForm = this.fb.group({
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required, passwordComplexityValidator]
-    });
+  username: ['', Validators.required],
+  email: ['', [Validators.required, Validators.email]],
+  password: ['', [Validators.required, passwordComplexityValidator]] 
+});
 
     this.success$ = this.submit$.pipe(
       switchMap(() => {
@@ -66,5 +69,9 @@ export class RegisterComponent {
 
   onSubmit() {
     this.submit$.next();
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

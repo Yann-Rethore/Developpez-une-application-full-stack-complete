@@ -1,32 +1,31 @@
-<h2>Inscription</h2>
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-  <label>
-    Nom d'utilisateur :
-    <input formControlName="username" />
-  </label>
-  <div *ngIf="submitted && registerForm.controls['username'].invalid">Champ requis</div>
+<button mat-icon-button class="back-btn" (click)="goBack()" aria-label="Retour">
+  <mat-icon>arrow_back</mat-icon>
+</button>
 
-  <label>
-    Email :
-    <input formControlName="email" type="email" />
-  </label>
-  <div *ngIf="submitted && registerForm.controls['email'].invalid">Email invalide</div>
-
-  <label>
-    Mot de passe :
-    <input formControlName="password" type="password" />
-  </label>
-  <div *ngIf="submitted && registerForm.controls['password'].invalid">Champ requis</div>
-  <div *ngIf="submitted && registerForm.controls['password'].errors?.['passwordComplexity']" class="error">
-  Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.
+<h2 class="centered">Inscription</h2>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="login-form">
+  <div class="form-group">
+    <label for="username">Nom d'utilisateur :</label>
+    <input id="username" formControlName="username" />
+    <div *ngIf="submitted && registerForm.controls['username'].invalid" class="error">Champ requis</div>
   </div>
-  <button mat-raised-button color="primary" type="submit">S'inscrire</button>
+
+  <div class="form-group">
+    <label for="email">Adresse e-mail :</label>
+    <input id="email" formControlName="email" type="email" />
+    <div *ngIf="submitted && registerForm.controls['email'].invalid" class="error">Email invalide</div>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Mot de passe :</label>
+    <input id="password" formControlName="password" type="password" />
+    <div *ngIf="submitted && registerForm.controls['password'].invalid" class="error">Champ requis</div>
+    <div *ngIf="submitted && registerForm.controls['password'].errors?.['passwordComplexity']" class="error">
+      Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.
+    </div>
+  </div>
+
+  <button mat-raised-button type="submit" class="validation-sbm">S'inscrire</button>
 </form>
 
-<div *ngIf="success$ | async as successValue">
-  <ng-container *ngIf="successValue !== null">
-    <span *ngIf="successValue" class="success">Inscription réussie !</span>
-    <span *ngIf="!successValue" class="error">Erreur lors de l'inscription.</span>
-  </ng-container>
-</div>
 
