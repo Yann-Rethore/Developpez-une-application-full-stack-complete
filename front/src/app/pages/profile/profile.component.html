@@ -1,14 +1,32 @@
-<form [formGroup]="profileForm" (ngSubmit)="onSubmit()" *ngIf="profile$ | async as profile">
-  <label>Nom d'utilisateur : <input formControlName="username"></label>
-  <label>Email : <input formControlName="email"></label>
-  <label>Nouveau mot de passe : <input type="password" formControlName="password"></label>
-  <button type="submit" mat-raised-button color="primary">Mettre à jour</button>
-</form>
+<h2 class="form-title">Profil utilisateur</h2>
+<div *ngIf="profile as profile">
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="article-form">
+    <div class="form-group">
+      <input id="username" formControlName="username" data-testid="username"/>
+    </div>
+    <div class="form-group">
+      <input id="email" formControlName="email" data-testid="email"/>
+    </div>
+    <div class="form-group">
+      <input id="password" type="password" formControlName="password" data-testid="password"/>
+    </div>
+    <button type="submit" mat-raised-button color="primary" class="submit-btn" data-testid="validate">Mettre à jour</button>
+  </form>
 
-<h3>Mes abonnements</h3>
-<ul *ngIf="profile$ | async as profile">
-  <li *ngFor="let id of profile.abonnements">
-    Thème #{{ id }}
-    <button mat-button color="warn" (click)="unsubscribe(id)">Se désabonner</button>
-  </li>
-</ul>
+
+ <h3>Mes abonnements</h3>
+  <div class="themes-grid">
+    <div class="theme-card" *ngFor="let theme of profile.abonnements">
+      <div class="theme-title">
+        <strong>{{ theme.name }}</strong>
+      </div>
+      <div class="theme-description">
+        {{ theme.description }}
+      </div>
+      <button
+        mat-raised-button
+        color="primary"
+        class="unsubscribe-btn"
+        (click)="unsubscribe(theme.id)">Se désabonner</button>
+    </div>
+  </div>

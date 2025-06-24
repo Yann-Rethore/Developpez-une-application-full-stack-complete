@@ -1,62 +1,96 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { UserProfileDTO, UserProfileUpdateDTO } from '../../interfaces/user-profile.dto';
 import { ProfileService } from '../../services/profile.service';
-import { Observable, Subject, merge, of, switchMap, tap, startWith } from 'rxjs';
+import { Subject, merge, switchMap, tap, takeUntil, startWith } from 'rxjs';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+
+function passwordComplexityValidator(control: AbstractControl): ValidationErrors | null {
+  const value = control.value || '';
+  const hasMinLength = value.length >= 8;
+  const hasUpperCase = /[A-Z]/.test(value);
+  const hasLowerCase = /[a-z]/.test(value);
+  const hasNumber = /\d/.test(value);
+  const hasSpecialChar = /[^A-Za-z0-9]/.test(value);
+
+  return hasMinLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar
+    ? null
+    : { passwordComplexity: true };
+}
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html'
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   profileForm: FormGroup;
-  profile$!: Observable<UserProfileDTO>;
-
-  // Triggers pour les actions
-  private updateProfile$ = new Subject<UserProfileUpdateDTO>();
+  profile$ = new Subject<void>();
+  profile: UserProfileDTO | null = null;
+  private update$ = new Subject<UserProfileUpdateDTO>();
   private unsubscribe$ = new Subject<number>();
+  private destroy$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder, private profileService: ProfileService) {
+ constructor(private fb: FormBuilder, 
+  private profileService: ProfileService,
+  private router: Router,
+  private authService: AuthService) {
     this.profileForm = this.fb.group({
-      username: [''],
-      email: [''],
-      password: ['']
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, passwordComplexityValidator]]
     });
   }
 
   ngOnInit(): void {
-    // Stream principal du profil utilisateur
-    this.profile$ = merge(
-      of(null), // Pour déclencher le chargement initial
-      this.updateProfile$.pipe(
-        switchMap(updates => this.profileService.updateProfile(updates).pipe(switchMap(() => of(null))))
-      ),
-      this.unsubscribe$.pipe(
-        switchMap(topicId => this.profileService.updateProfile({ desabonnements: [topicId] }).pipe(switchMap(() => of(null))))
-      )
+    // Flux réactif pour charger le profil à chaque update ou désabonnement
+    merge(
+      this.profile$.pipe(startWith(void 0)),
+      this.update$,
+      this.unsubscribe$
     ).pipe(
       switchMap(() => this.profileService.getProfile()),
       tap(profile => {
+        this.profile = profile;
         this.profileForm.patchValue({
           username: profile.username,
           email: profile.email,
           password: ''
         });
-      })
-    );
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe();
   }
 
-  onSubmit() {
+   onSubmit() {
+    if (this.profileForm.invalid) {
+      this.profileForm.markAllAsTouched();
+      return;
+    }
     const formValue = this.profileForm.value;
-    const updates: UserProfileUpdateDTO = {};
-    if (formValue.username) updates.username = formValue.username;
-    if (formValue.email) updates.email = formValue.email;
-    if (formValue.password) updates.password = formValue.password;
-    this.updateProfile$.next(updates);
+    const updates: UserProfileUpdateDTO = {
+      username: formValue.username,
+      email: formValue.email,
+      password: formValue.password
+    };
+    this.profileService.updateProfile(updates)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(() => {
+      this.authService.logout();
+      this.router.navigate(['/']);
+    });
   }
 
   unsubscribe(topicId: number) {
-    this.unsubscribe$.next(topicId);
+    this.profileService.updateProfile({ desabonnements: [topicId] })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.unsubscribe$.next(topicId); // Déclenche le rechargement du profil
+      });
   }
-  
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
