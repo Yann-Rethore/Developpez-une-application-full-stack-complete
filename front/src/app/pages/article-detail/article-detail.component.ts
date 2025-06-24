@@ -1,19 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArticleService } from '../../services/article.service';
 import { ArticleDto } from '../../interfaces/article.dto';
 import { Observable, Subject, switchMap, startWith, tap } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+<<<<<<< Updated upstream
+=======
+import { Location } from '@angular/common';
+import { takeUntil } from 'rxjs/operators';
+>>>>>>> Stashed changes
 
 @Component({
   selector: 'app-article-detail',
   templateUrl: './article-detail.component.html'
 })
-export class ArticleDetailComponent implements OnInit {
+export class ArticleDetailComponent implements OnInit, OnDestroy {
   article$!: Observable<ArticleDto>;
   commentaireForm: FormGroup;
   private refresh$ = new Subject<void>();
   commentaireSuccess = false;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -34,6 +40,7 @@ export class ArticleDetailComponent implements OnInit {
         )
       )
     );
+    takeUntil(this.destroy$)
   }
   
   ajouterCommentaire() {
@@ -47,4 +54,16 @@ export class ArticleDetailComponent implements OnInit {
       });
     }
   }
+<<<<<<< Updated upstream
+=======
+
+  goBack() {
+    this.location.back();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+>>>>>>> Stashed changes
 }
