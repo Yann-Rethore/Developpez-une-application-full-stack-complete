@@ -5,11 +5,15 @@ import { TopicService } from '../../services/topic.service';
 import { ArticleCreateDTO } from '../../interfaces/article-create.dto';
 import { TopicDto } from '../../interfaces/topic.dto';
 import { Observable, Subject, of, switchMap, catchError, startWith, map } from 'rxjs';
+
 import { takeUntil } from 'rxjs/operators';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-article',
-  templateUrl: './article.component.html'
+  templateUrl: './article.component.html',
+  styleUrls: ['./article.component.scss']
 })
 export class ArticleComponent implements OnInit,  OnDestroy {
   articleForm: FormGroup;
@@ -23,7 +27,8 @@ export class ArticleComponent implements OnInit,  OnDestroy {
   constructor(
     private fb: FormBuilder,
     private articleService: ArticleService,
-    private topicService: TopicService
+    private topicService: TopicService,
+    private location: Location
   ) {
     this.articleForm = this.fb.group({
       titre: ['', Validators.required],
@@ -66,4 +71,5 @@ export class ArticleComponent implements OnInit,  OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
 }

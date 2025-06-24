@@ -19,15 +19,20 @@ function passwordComplexityValidator(control: AbstractControl): ValidationErrors
     : { passwordComplexity: true };
 }
 
+
+
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html'
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   profileForm: FormGroup;
+
   profile$ = new Subject<void>();
   profile: UserProfileDTO | null = null;
   private update$ = new Subject<UserProfileUpdateDTO>();
+
   private unsubscribe$ = new Subject<number>();
   private destroy$ = new Subject<void>();
 

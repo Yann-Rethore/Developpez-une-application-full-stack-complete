@@ -1,25 +1,24 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ArticleService } from '../../services/article.service';
 import { ArticleDto } from '../../interfaces/article.dto';
-<<<<<<< Updated upstream
+
 import { Observable, of } from 'rxjs';
 import { map, catchError, startWith } from 'rxjs/operators';
-=======
+
 import { Observable, of, Subject } from 'rxjs';
 import { map, catchError, startWith, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
->>>>>>> Stashed changes
+
+
 
 @Component({
   selector: 'app-articles-abonnes',
-  templateUrl: './articles-abonnes.component.html'
+  templateUrl: './articles-abonnes.component.html',
+  styleUrls: ['./articles-abonnes.component.scss']
 })
 export class ArticlesAbonnesComponent implements   OnInit ,OnDestroy {
   articles$!: Observable<{ loading: boolean, error: boolean, data: ArticleDto[] }>;
-<<<<<<< Updated upstream
 
-  constructor(private articleService: ArticleService) {
-=======
   sortDesc = true;
   private destroy$ = new Subject<void>();
 
@@ -34,13 +33,23 @@ export class ArticlesAbonnesComponent implements   OnInit ,OnDestroy {
   
  
   loadArticles() {
->>>>>>> Stashed changes
+  sortDesc = true;
+
+  constructor(
+    private articleService: ArticleService,
+    private router: Router
+  ) {
+    this.loadArticles();
+  }
+  loadArticles() {
     this.articles$ = this.articleService.getArticlesAbonnes().pipe(
       map(articles => ({
         loading: false,
         error: false,
         data: articles.sort((a, b) =>
-          new Date(b.date).getTime() - new Date(a.date).getTime()
+          this.sortDesc
+            ? new Date(b.date).getTime() - new Date(a.date).getTime()
+            : new Date(a.date).getTime() - new Date(b.date).getTime()
         )
       })),
       catchError(() => of({ loading: false, error: true, data: [] })),
@@ -48,8 +57,6 @@ export class ArticlesAbonnesComponent implements   OnInit ,OnDestroy {
       takeUntil(this.destroy$)
     );
   }
-<<<<<<< Updated upstream
-=======
 
   toggleSort() {
     this.sortDesc = !this.sortDesc;
@@ -64,5 +71,5 @@ export class ArticlesAbonnesComponent implements   OnInit ,OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
->>>>>>> Stashed changes
+
 }

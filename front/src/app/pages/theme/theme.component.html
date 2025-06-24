@@ -1,18 +1,22 @@
-<h2>Liste des thèmes</h2>
-<ul>
-  <ng-container *ngIf="topics$ | async as topics; else loading">
-    <ng-container *ngIf="subscribedTopicIds$ | async as subscribedIds">
-      <li *ngFor="let topic of topics">
-        <strong>{{ topic.name }}</strong> : {{ topic.description }}
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="isSubscribed(topic.id, subscribedIds)"
-          (click)="toggleSubscription(topic.id, subscribedIds)">
-          {{ isSubscribed(topic.id, subscribedIds) ? 'Déjà abonné' : "S'abonner" }}
-        </button>
-      </li>
-    </ng-container>
+<div class="themes-grid" *ngIf="topics$ | async as topics; else loading">
+  <ng-container *ngIf="subscribedTopicIds$ | async as subscribedIds">
+    <div class="theme-card" *ngFor="let topic of topics">
+      <div class="theme-title">
+        <strong>{{ topic.name }}</strong>
+      </div>
+      <div class="theme-description">
+        {{ topic.description }}
+      </div>
+      <button
+        mat-raised-button
+        color="primary"
+        class="subscribe-btn"
+        [disabled]="isSubscribed(topic.id, subscribedIds)"
+        (click)="toggleSubscription(topic.id, subscribedIds)">
+        {{ isSubscribed(topic.id, subscribedIds) ? 'Déjà abonné' : "S'abonner" }}
+      </button>
+    </div>
   </ng-container>
-</ul>
+</div>
 <ng-template #loading>Chargement...</ng-template>
+

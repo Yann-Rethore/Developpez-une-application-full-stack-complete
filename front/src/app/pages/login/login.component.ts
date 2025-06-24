@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Subject, Observable, of, switchMap, catchError, map, startWith, filter, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder, 
     private authService: AuthService, 
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {
     this.loginForm = this.fb.group({
       identifier: ['', Validators.required],
@@ -63,15 +65,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.submit$.next();
   }
-<<<<<<< Updated upstream
-=======
 
   goBack() {
     this.location.back();
   }
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
->>>>>>> Stashed changes
 }

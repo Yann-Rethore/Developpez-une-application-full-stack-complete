@@ -1,16 +1,26 @@
-<h2>Connexion</h2>
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <label>
-    Identifiant :
-    <input formControlName="identifier" />
-  </label>
-  <label>
-    Mot de passe :
-    <input type="password" formControlName="password" />
-  </label>
-  <button type="submit">Connexion</button>
+<button mat-icon-button class="back-btn" (click)="goBack()" aria-label="Retour">
+  <mat-icon>arrow_back</mat-icon>
+</button>
+
+<h2 class="centered">Se connecter</h2>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+  <div class="form-group">
+    <label for="identifier">E-mail ou nom d'utilisateur :</label>
+    <input id="identifier" formControlName="identifier" />
+    <div *ngIf="submitted && loginForm.controls['identifier'].invalid" class="error">
+      Champ requis
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="password">Mot de passe :</label>
+    <input id="password" type="password" formControlName="password" />
+    <div *ngIf="submitted && loginForm.controls['password'].invalid" class="error">
+      Champ requis
+    </div>
+  </div>
+  <button type="submit" class="validation-sbm" color="primary">Se connecter</button>
 </form>
 
-<div *ngIf="success$ | async as success">
+<div *ngIf="success$ | async as success" class="centered">
   <span *ngIf="!success" class="error">Identifiants invalides</span>
 </div>
