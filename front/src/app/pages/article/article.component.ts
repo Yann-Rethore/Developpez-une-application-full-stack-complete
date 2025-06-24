@@ -1,20 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ArticleService } from '../../services/article.service';
 import { TopicService } from '../../services/topic.service';
 import { ArticleCreateDTO } from '../../interfaces/article-create.dto';
 import { TopicDto } from '../../interfaces/topic.dto';
 import { Observable, Subject, of, switchMap, catchError, startWith, map } from 'rxjs';
+
+import { takeUntil } from 'rxjs/operators';
 import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-article',
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss']
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent implements OnInit,  OnDestroy {
   articleForm: FormGroup;
   submitted = false;
+  private destroy$ = new Subject<void>();
 
   topics$!: Observable<TopicDto[]>;
   private submit$ = new Subject<void>();
@@ -34,7 +38,9 @@ export class ArticleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.topics$ = this.topicService.getAllTopics();
+    this.topics$ = this.topicService.getAllTopics().pipe(
+      takeUntil(this.destroy$)
+    );
 
     this.success$ = this.submit$.pipe(
       switchMap(() => {
@@ -48,7 +54,8 @@ export class ArticleComponent implements OnInit {
         }
         return of(false);
       }),
-      startWith(false)
+      startWith(false),
+      takeUntil(this.destroy$)
     );
   }
 
@@ -59,4 +66,10 @@ export class ArticleComponent implements OnInit {
   goBack() {
     this.location.back();
   }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
 }

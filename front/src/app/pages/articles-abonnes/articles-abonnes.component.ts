@@ -1,17 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ArticleService } from '../../services/article.service';
 import { ArticleDto } from '../../interfaces/article.dto';
+
 import { Observable, of } from 'rxjs';
 import { map, catchError, startWith } from 'rxjs/operators';
+
+import { Observable, of, Subject } from 'rxjs';
+import { map, catchError, startWith, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-articles-abonnes',
   templateUrl: './articles-abonnes.component.html',
   styleUrls: ['./articles-abonnes.component.scss']
 })
-export class ArticlesAbonnesComponent {
+export class ArticlesAbonnesComponent implements   OnInit ,OnDestroy {
   articles$!: Observable<{ loading: boolean, error: boolean, data: ArticleDto[] }>;
+
+  sortDesc = true;
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private articleService: ArticleService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    this.loadArticles();
+  }
+  
+ 
+  loadArticles() {
   sortDesc = true;
 
   constructor(
@@ -32,7 +53,8 @@ export class ArticlesAbonnesComponent {
         )
       })),
       catchError(() => of({ loading: false, error: true, data: [] })),
-      startWith({ loading: true, error: false, data: [] })
+      startWith({ loading: true, error: false, data: [] }),
+      takeUntil(this.destroy$)
     );
   }
 
@@ -44,4 +66,10 @@ export class ArticlesAbonnesComponent {
   goToDetail(id: number) {
     this.router.navigate(['/article', id]);
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
 }

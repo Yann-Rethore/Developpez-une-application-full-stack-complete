@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TopicService } from '../../services/topic.service';
 import { TopicDto } from '../../interfaces/topic.dto';
-import { Observable, BehaviorSubject, combineLatest, map, switchMap, tap } from 'rxjs';
+import { Observable, BehaviorSubject, Subject, combineLatest, map, switchMap, tap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-theme',
   templateUrl: './theme.component.html',
   styleUrls: ['./theme.component.scss']
 })
-export class ThemeComponent implements OnInit {
+export class ThemeComponent implements OnInit , OnDestroy {
   private refresh$ = new BehaviorSubject<void>(undefined);
 
   topics$!: Observable<TopicDto[]>;
   subscribedTopicIds$!: Observable<number[]>;
+  private destroy$ = new Subject<void>();
 
   constructor(private topicService: TopicService) {}
 
@@ -20,9 +21,12 @@ export class ThemeComponent implements OnInit {
     this.topics$ = this.refresh$.pipe(
       switchMap(() => this.topicService.getAllTopics())
     );
+    takeUntil(this.destroy$);
     this.subscribedTopicIds$ = this.refresh$.pipe(
-      switchMap(() => this.topicService.getUserSubscriptions())
+      switchMap(() => this.topicService.getUserSubscriptions(),
+      )
     );
+    takeUntil(this.destroy$)
   }
 
   isSubscribed(topicId: number, subscribedIds: number[]): boolean {
@@ -37,5 +41,10 @@ export class ThemeComponent implements OnInit {
     this.topicService.subscribeToTopic(topicId).subscribe(() => {
       this.refresh$.next();
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
