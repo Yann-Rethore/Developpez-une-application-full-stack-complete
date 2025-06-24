@@ -17,6 +17,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "sourceMap": {
+              "scripts": true,
+               "styles": true,
+                "vendor": true
+          },
             "outputPath": "dist/front",
             "index": "src/index.html",
             "main": "src/main.ts",
