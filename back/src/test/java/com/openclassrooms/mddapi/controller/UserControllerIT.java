@@ -1,7 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 
-import com.openclassrooms.mddapi.dto.UserProfileDTO;
-import com.openclassrooms.mddapi.dto.UserProfileUpdateDTO;
+import com.openclassrooms.mddapi.dto.UserProfileDto;
+import com.openclassrooms.mddapi.dto.UserProfileUpdateDto;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.TopicRepository;
@@ -65,10 +65,10 @@ class UserControllerIT {
 
     @Test
     void getProfile_shouldReturnUserProfileDTO() {
-        ResponseEntity<UserProfileDTO> response = userController.getProfile(principal);
+        ResponseEntity<UserProfileDto> response = userController.getProfile(principal);
 
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
-        UserProfileDTO dto = response.getBody();
+        UserProfileDto dto = response.getBody();
         assertThat(dto.getUsername()).isEqualTo("integrationUser");
         assertThat(dto.getEmail()).isEqualTo("integration@test.com");
         assertThat(dto.getAbonnements()).extracting("id").contains(topic1.getId(), topic2.getId());
@@ -76,7 +76,7 @@ class UserControllerIT {
 
     @Test
     void updateProfile_shouldUpdateFieldsAndDesabonnements() {
-        UserProfileUpdateDTO updates = new UserProfileUpdateDTO();
+        UserProfileUpdateDto updates = new UserProfileUpdateDto();
         updates.setUsername("newuser");
         updates.setEmail("new@test.com");
         updates.setPassword("newpass");

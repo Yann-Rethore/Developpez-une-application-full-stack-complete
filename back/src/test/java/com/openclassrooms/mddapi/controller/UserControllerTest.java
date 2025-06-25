@@ -1,8 +1,8 @@
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.TopicDto;
-import com.openclassrooms.mddapi.dto.UserProfileDTO;
-import com.openclassrooms.mddapi.dto.UserProfileUpdateDTO;
+import com.openclassrooms.mddapi.dto.UserProfileDto;
+import com.openclassrooms.mddapi.dto.UserProfileUpdateDto;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
@@ -55,10 +55,10 @@ class UserControllerTest {
         when(principal.getName()).thenReturn("user");
         when(userRepository.findWithAbonnementsByUsername("user")).thenReturn(Optional.of(user));
 
-        ResponseEntity<UserProfileDTO> response = userController.getProfile(principal);
+        ResponseEntity<UserProfileDto> response = userController.getProfile(principal);
 
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
-        UserProfileDTO dto = response.getBody();
+        UserProfileDto dto = response.getBody();
         assertThat(dto.getUsername()).isEqualTo("user");
         assertThat(dto.getEmail()).isEqualTo("user@test.com");
         assertThat(dto.getAbonnements()).extracting(TopicDto::getId).contains(1L);
@@ -70,7 +70,7 @@ class UserControllerTest {
         when(userRepository.findWithAbonnementsByUsername("user")).thenReturn(Optional.of(user));
         when(passwordEncoder.encode("newpass")).thenReturn("encoded");
 
-        UserProfileUpdateDTO updates = new UserProfileUpdateDTO();
+        UserProfileUpdateDto updates = new UserProfileUpdateDto();
         updates.setUsername("newuser");
         updates.setEmail("new@test.com");
         updates.setPassword("newpass");
@@ -92,7 +92,7 @@ class UserControllerTest {
         when(userRepository.findWithAbonnementsByUsername("user")).thenReturn(Optional.of(user));
 
         // username, email, password, desabonnements à null
-        UserProfileUpdateDTO updates = new UserProfileUpdateDTO();
+        UserProfileUpdateDto updates = new UserProfileUpdateDto();
         updates.setUsername(null);
         updates.setEmail(null);
         updates.setPassword(null);
@@ -114,7 +114,7 @@ class UserControllerTest {
         when(principal.getName()).thenReturn("user");
         when(userRepository.findWithAbonnementsByUsername("user")).thenReturn(Optional.of(user));
 
-        UserProfileUpdateDTO updates = new UserProfileUpdateDTO();
+        UserProfileUpdateDto updates = new UserProfileUpdateDto();
         updates.setDesabonnements(Collections.emptyList());
 
         ResponseEntity<?> response = userController.updateProfile(principal, updates);

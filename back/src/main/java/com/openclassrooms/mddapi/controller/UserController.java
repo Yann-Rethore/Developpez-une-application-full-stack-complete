@@ -1,9 +1,8 @@
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.TopicDto;
-import com.openclassrooms.mddapi.dto.UserProfileDTO;
-import com.openclassrooms.mddapi.dto.UserProfileUpdateDTO;
-import com.openclassrooms.mddapi.dto.TopicDto;
+import com.openclassrooms.mddapi.dto.UserProfileDto;
+import com.openclassrooms.mddapi.dto.UserProfileUpdateDto;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.repository.UserRepository;
@@ -34,11 +33,11 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<UserProfileDTO> getProfile(Principal principal) {
+    public ResponseEntity<UserProfileDto> getProfile(Principal principal) {
         String username = principal.getName();
         User user = userRepository.findWithAbonnementsByUsername(username).orElseThrow();
 
-        UserProfileDTO dto = new UserProfileDTO();
+        UserProfileDto dto = new UserProfileDto();
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
         dto.setAbonnements(
@@ -50,7 +49,7 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateProfile(Principal principal, @RequestBody UserProfileUpdateDTO updates) {
+    public ResponseEntity<?> updateProfile(Principal principal, @RequestBody UserProfileUpdateDto updates) {
         String username = principal.getName();
         User user = userRepository.findWithAbonnementsByUsername(username).orElseThrow();
 

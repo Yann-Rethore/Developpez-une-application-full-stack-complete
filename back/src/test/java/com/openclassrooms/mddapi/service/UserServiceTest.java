@@ -1,6 +1,6 @@
 package com.openclassrooms.mddapi.service;
 
-import com.openclassrooms.mddapi.dto.RegisterRequest;
+import com.openclassrooms.mddapi.dto.RegisterRequestDto;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +32,7 @@ class UserServiceTest {
 
     @Test
     void register_shouldEncodePasswordAndSaveUser() {
-        RegisterRequest request = new RegisterRequest();
+        RegisterRequestDto request = new RegisterRequestDto();
         request.setUsername("user");
         request.setEmail("user@mail.com");
         request.setPassword("plain");

@@ -1,6 +1,6 @@
 package com.openclassrooms.mddapi.service;
 
-import com.openclassrooms.mddapi.dto.RegisterRequest;
+import com.openclassrooms.mddapi.dto.RegisterRequestDto;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class UserServiceIT {
 
     @Test
     void register_shouldPersistUserWithEncodedPassword() {
-        RegisterRequest request = new RegisterRequest();
+        RegisterRequestDto request = new RegisterRequestDto();
         request.setUsername("testuser");
         request.setEmail("test@mail.com");
         request.setPassword("secret");
@@ -45,7 +45,7 @@ class UserServiceIT {
 
     @Test
     void authenticate_shouldReturnUserByUsername() {
-        RegisterRequest request = new RegisterRequest();
+        RegisterRequestDto request = new RegisterRequestDto();
         request.setUsername("authuser");
         request.setEmail("auth@mail.com");
         request.setPassword("mypassword");
@@ -59,7 +59,7 @@ class UserServiceIT {
 
     @Test
     void authenticate_shouldReturnUserByEmail() {
-        RegisterRequest request = new RegisterRequest();
+        RegisterRequestDto request = new RegisterRequestDto();
         request.setUsername("mailuser");
         request.setEmail("mail@mail.com");
         request.setPassword("mailpass");
@@ -73,7 +73,7 @@ class UserServiceIT {
 
     @Test
     void authenticate_shouldThrowIfPasswordIsWrong() {
-        RegisterRequest request = new RegisterRequest();
+        RegisterRequestDto request = new RegisterRequestDto();
         request.setUsername("failuser");
         request.setEmail("fail@mail.com");
         request.setPassword("goodpass");

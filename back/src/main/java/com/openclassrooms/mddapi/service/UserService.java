@@ -1,15 +1,10 @@
 package com.openclassrooms.mddapi.service;
 
-import com.openclassrooms.mddapi.dto.RegisterRequest;
-import com.openclassrooms.mddapi.dto.TopicDto;
+import com.openclassrooms.mddapi.dto.RegisterRequestDto;
 import com.openclassrooms.mddapi.model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.openclassrooms.mddapi.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -25,7 +20,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User register(RegisterRequest request) {
+    public User register(RegisterRequestDto request) {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
