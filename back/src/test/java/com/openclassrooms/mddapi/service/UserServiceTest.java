@@ -1,3 +1,4 @@
+// Classe de test unitaire pour UserService
 package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.dto.RegisterRequestDto;
@@ -17,19 +18,21 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
 
     @Mock
-    private UserRepository userRepository;
+    private UserRepository userRepository; // Mock du repository utilisateur
 
     @Mock
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder; // Mock de l'encodeur de mot de passe
 
     @InjectMocks
-    private UserService userService;
+    private UserService userService; // Service à tester
 
+    // Initialise les mocks avant chaque test
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
+    // Vérifie que register encode le mot de passe et sauvegarde l'utilisateur
     @Test
     void register_shouldEncodePasswordAndSaveUser() {
         RegisterRequestDto request = new RegisterRequestDto();
@@ -54,6 +57,7 @@ class UserServiceTest {
         verify(userRepository).save(any(User.class));
     }
 
+    // Vérifie que authenticate retourne l'utilisateur par username si le mot de passe correspond
     @Test
     void authenticate_shouldReturnUserByUsernameIfPasswordMatches() {
         User user = new User();
@@ -70,6 +74,7 @@ class UserServiceTest {
         verify(passwordEncoder).matches("plain", "encoded");
     }
 
+    // Vérifie que authenticate retourne l'utilisateur par email si le mot de passe correspond
     @Test
     void authenticate_shouldReturnUserByEmailIfPasswordMatches() {
         User user = new User();
@@ -88,6 +93,7 @@ class UserServiceTest {
         verify(passwordEncoder).matches("plain", "encoded");
     }
 
+    // Vérifie qu'une exception est levée si l'utilisateur n'est pas trouvé
     @Test
     void authenticate_shouldThrowIfUserNotFound() {
         when(userRepository.findByUsername("unknown")).thenReturn(Optional.empty());
@@ -98,6 +104,7 @@ class UserServiceTest {
                 .hasMessageContaining("Identifiants invalides");
     }
 
+    // Vérifie qu'une exception est levée si le mot de passe ne correspond pas
     @Test
     void authenticate_shouldThrowIfPasswordDoesNotMatch() {
         User user = new User();
