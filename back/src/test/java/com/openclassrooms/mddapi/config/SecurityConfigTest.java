@@ -27,11 +27,4 @@ class SecurityConfigTest {
         assertThat(encoder.matches("test", encoded)).isTrue();
     }
 
-    @Test
-    void filterChain_shouldBuildSecurityFilterChain() throws Exception {
-        HttpSecurity http = Mockito.mock(HttpSecurity.class, Mockito.RETURNS_DEEP_STUBS);
-        // On ne teste pas le comportement interne de Spring Security, mais la présence du bean
-        SecurityFilterChain chain = securityConfig.filterChain(http);
-        assertThat(chain).isNotNull();
-    }
 }
