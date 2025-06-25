@@ -1,3 +1,4 @@
+// Classe de test d'intégration pour le contrôleur ArticleController
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.ArticleCreateDto;
@@ -16,8 +17,8 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ActiveProfiles("intégration")
-@SpringBootTest
+@ActiveProfiles("intégration") // Utilise le profil "intégration" pour les tests
+@SpringBootTest // Lance le contexte Spring Boot pour les tests d'intégration
 class ArticleControllerIT {
 
     @Autowired
@@ -34,17 +35,20 @@ class ArticleControllerIT {
     private User user;
     private Topic topic;
 
+    // Crée un mock de Principal pour simuler l'utilisateur authentifié
     private Principal principalMock(String username) {
         return () -> username;
     }
 
     @BeforeEach
     void setUp() {
+        // Nettoie la base avant chaque test
         commentaireRepository.deleteAll();
         articleRepository.deleteAll();
         userRepository.deleteAll();
         topicRepository.deleteAll();
 
+        // Crée un utilisateur et un thème pour les tests
         user = new User();
         user.setUsername("user");
         user.setEmail("test@example.com");
@@ -56,12 +60,14 @@ class ArticleControllerIT {
         topic.setDescription("Technologie et innovation");
         topic = topicRepository.save(topic);
 
+        // Abonne l'utilisateur au thème
         user.setAbonnements(Set.of(topic));
         userRepository.save(user);
     }
 
     @Test
     void createArticle_shouldPersistArticle() {
+        // Vérifie que la création d'un article fonctionne et persiste en base
         ArticleCreateDto dto = new ArticleCreateDto();
         dto.setTitre("Titre");
         dto.setContenu("Contenu");
@@ -74,6 +80,7 @@ class ArticleControllerIT {
 
     @Test
     void getArticlesAbonnes_shouldReturnArticles() {
+        // Vérifie que la récupération des articles des abonnements fonctionne
         Article article = new Article();
         article.setTitre("Titre");
         article.setContenu("Contenu");
@@ -88,6 +95,7 @@ class ArticleControllerIT {
 
     @Test
     void getArticleById_shouldReturnArticle() {
+        // Vérifie que la récupération d'un article par son id fonctionne
         Article article = new Article();
         article.setTitre("Titre");
         article.setContenu("Contenu");
@@ -102,6 +110,7 @@ class ArticleControllerIT {
 
     @Test
     void ajouterCommentaire_shouldPersistComment() {
+        // Vérifie que l'ajout d'un commentaire à un article fonctionne
         Article article = new Article();
         article.setTitre("Titre");
         article.setContenu("Contenu");

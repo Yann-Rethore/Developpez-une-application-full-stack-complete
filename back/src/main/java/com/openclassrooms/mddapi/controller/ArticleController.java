@@ -1,3 +1,4 @@
+// Contrôleur REST pour la gestion des articles et des commentaires
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.ArticleCreateDto;
@@ -21,25 +22,26 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/article")
+@RestController // Indique que cette classe est un contrôleur REST
+@RequestMapping("/api/article") // Préfixe pour tous les endpoints de ce contrôleur
 public class ArticleController {
 
     @Autowired
-    private ArticleRepository articleRepository;
+    private ArticleRepository articleRepository; // Accès aux articles
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository userRepository; // Accès aux utilisateurs
 
     @Autowired
-    private TopicRepository topicRepository;
+    private TopicRepository topicRepository; // Accès aux thèmes
 
     @Autowired
-    private CommentaireRepository commentaireRepository;
+    private CommentaireRepository commentaireRepository; // Accès aux commentaires
 
+    // Endpoint POST /api/article pour créer un nouvel article
     @PostMapping
     public ResponseEntity<?> createArticle(@RequestBody ArticleCreateDto dto, Principal principal) {
-        String username = principal.getName();
+        String username = principal.getName(); // Récupère l'utilisateur authentifié
         User auteur = userRepository.findByUsername(username).orElseThrow();
         Topic theme = topicRepository.findById(dto.getThemeId()).orElseThrow();
 
@@ -49,11 +51,11 @@ public class ArticleController {
         article.setAuteur(auteur);
         article.setTopic(theme);
 
-
-        articleRepository.save(article);
+        articleRepository.save(article); // Sauvegarde l'article en base
         return ResponseEntity.ok().build();
     }
 
+    // Endpoint GET /api/article/abonnes pour récupérer les articles des abonnements de l'utilisateur
     @GetMapping("/abonnes")
     public ResponseEntity<List<ArticleDto>> getArticlesAbonnes(Principal principal) {
         String username = principal.getName();
@@ -64,6 +66,7 @@ public class ArticleController {
         return ResponseEntity.ok(dtos);
     }
 
+    // Endpoint GET /api/article/{id} pour récupérer un article par son id (avec commentaires)
     @GetMapping("/{id}")
     public ResponseEntity<ArticleDto> getArticleById(@PathVariable Long id) {
         Article article = articleRepository.findByIdWithCommentaires(id)
@@ -71,6 +74,7 @@ public class ArticleController {
         return ResponseEntity.ok(new ArticleDto(article));
     }
 
+    // Endpoint POST /api/article/{id}/commentaire pour ajouter un commentaire à un article
     @PostMapping("/{id}/commentaire")
     public ResponseEntity<?> ajouterCommentaire(
             @PathVariable("id") Long id,

@@ -18,13 +18,13 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ActiveProfiles("test")
-@DataJpaTest
-@Import(ArticleService.class)
+@ActiveProfiles("test") // Utilise le profil de test
+@DataJpaTest // Configure un contexte JPA en mémoire pour les tests
+@Import(ArticleService.class) // Importe le service à tester
 class ArticleServiceIT {
 
     @Autowired
-    private ArticleService articleService;
+    private ArticleService articleService; // Service à tester
 
     @Autowired
     private ArticleRepository articleRepository;
@@ -35,6 +35,7 @@ class ArticleServiceIT {
     @Autowired
     private UserRepository userRepository;
 
+    // Teste la sauvegarde et la récupération de tous les articles
     @Test
     void saveAndFindAll_shouldPersistAndReturnArticles() {
         User user = new User();
@@ -51,7 +52,7 @@ class ArticleServiceIT {
         Article article = new Article();
         article.setTitre("Titre");
         article.setContenu("Contenu");
-        article.setAuteur(user); // Assure-toi que 'user' est bien initialisé et sauvegardé
+        article.setAuteur(user); // L’auteur doit être sauvegardé
         article.setTopic(topic);
         articleRepository.save(article);
 
@@ -60,6 +61,7 @@ class ArticleServiceIT {
         assertThat(articles.get(0).getTitre()).isEqualTo("Titre");
     }
 
+    // Teste la récupération d’un article par son identifiant
     @Test
     void findById_shouldReturnSavedArticle() {
         User user = new User();
@@ -85,6 +87,7 @@ class ArticleServiceIT {
         assertThat(found.get().getTitre()).isEqualTo("Titre2");
     }
 
+    // Teste la suppression d’un article par son identifiant
     @Test
     void deleteById_shouldRemoveArticle() {
         User user = new User();
@@ -101,7 +104,7 @@ class ArticleServiceIT {
         Article article = new Article();
         article.setTitre("Titre");
         article.setContenu("Contenu");
-        article.setAuteur(user); // Assure-toi que 'user' est bien initialisé et sauvegardé
+        article.setAuteur(user);
         article.setTopic(topic);
         articleRepository.save(article);
 
@@ -109,6 +112,7 @@ class ArticleServiceIT {
         assertThat(articleRepository.findById(article.getId())).isEmpty();
     }
 
+    // Teste la récupération des articles liés aux abonnements de l’utilisateur
     @Test
     void findArticlesByAbonnements_shouldReturnArticlesForUserTopics() {
         // Création et sauvegarde d’un utilisateur
@@ -118,17 +122,17 @@ class ArticleServiceIT {
         user.setPassword("password");
         user = userRepository.save(user);
 
-// Création et sauvegarde d’un topic
+        // Création et sauvegarde d’un topic
         Topic topic = new Topic();
         topic.setName("Java");
         topic.setDescription("Langage de programmation");
         topic = topicRepository.save(topic);
 
-// L’utilisateur s’abonne au topic
+        // L’utilisateur s’abonne au topic
         user.getAbonnements().add(topic);
         user = userRepository.save(user);
 
-// Création et sauvegarde d’un article lié au topic et à l’auteur
+        // Création et sauvegarde d’un article lié au topic et à l’auteur
         Article article = new Article();
         article.setTitre("Titre");
         article.setContenu("Contenu");
@@ -136,7 +140,7 @@ class ArticleServiceIT {
         article.setTopic(topic);
         article = articleRepository.save(article);
 
-// Appel du service et vérification
+        // Appel du service et vérification
         List<Article> articles = articleService.findArticlesByAbonnements(user);
         assertThat(articles).hasSize(1);
         assertThat(articles.get(0).getTitre()).isEqualTo("Titre");

@@ -1,3 +1,4 @@
+// Classe de test unitaire pour le contrôleur ArticleController
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.ArticleCreateDto;
@@ -11,7 +12,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import java.time.LocalDateTime;
-
 import java.security.Principal;
 import java.util.*;
 
@@ -32,16 +32,19 @@ class ArticleControllerTest {
     @InjectMocks
     private ArticleController articleController;
 
+    // Méthode utilitaire pour simuler un Principal (utilisateur authentifié)
     private Principal principalMock(String username) {
         return () -> username;
     }
 
+    // Initialise les mocks avant chaque test
     public ArticleControllerTest() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
     void createArticle_shouldReturnOk() {
+        // Vérifie que la création d'un article retourne un statut 200
         ArticleCreateDto dto = new ArticleCreateDto();
         dto.setTitre("Titre");
         dto.setContenu("Contenu");
@@ -60,12 +63,13 @@ class ArticleControllerTest {
 
     @Test
     void getArticlesAbonnes_shouldReturnList() {
+        // Vérifie que la récupération des articles des abonnements retourne une liste et un statut 200
         User user = new User();
         Topic topic = new Topic();
         user.setAbonnements(Set.of(topic));
         Mockito.when(userRepository.findWithAbonnementsAndArticlesByUsername("user")).thenReturn(Optional.of(user));
         Article article = new Article();
-        article.setCreatedAt(LocalDateTime.now()); // Correction ici
+        article.setCreatedAt(LocalDateTime.now());
         Mockito.when(articleRepository.findByTopicsWithCommentaires(anyList())).thenReturn(List.of(article));
 
         ResponseEntity<?> response = articleController.getArticlesAbonnes(principalMock("user"));
@@ -75,8 +79,9 @@ class ArticleControllerTest {
 
     @Test
     void getArticleById_shouldReturnArticle() {
+        // Vérifie que la récupération d'un article par son id retourne bien l'article et un statut 200
         Article article = new Article();
-        article.setCreatedAt(LocalDateTime.now()); // Correction ici
+        article.setCreatedAt(LocalDateTime.now());
         Mockito.when(articleRepository.findByIdWithCommentaires(1L)).thenReturn(Optional.of(article));
 
         ResponseEntity<?> response = articleController.getArticleById(1L);
@@ -86,6 +91,7 @@ class ArticleControllerTest {
 
     @Test
     void ajouterCommentaire_shouldReturnOk() {
+        // Vérifie que l'ajout d'un commentaire retourne un statut 200
         Article article = new Article();
         User user = new User();
         CommentaireRequestDto dto = new CommentaireRequestDto();

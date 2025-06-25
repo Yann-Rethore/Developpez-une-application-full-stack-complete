@@ -1,3 +1,4 @@
+// Classe de test unitaire pour ArticleService
 package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.model.Article;
@@ -17,16 +18,18 @@ import static org.mockito.Mockito.*;
 class ArticleServiceTest {
 
     @Mock
-    private ArticleRepository articleRepository;
+    private ArticleRepository articleRepository; // Mock du repository
 
     @InjectMocks
-    private ArticleService articleService;
+    private ArticleService articleService; // Service à tester
 
+    // Initialise les mocks avant chaque test
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
+    // Vérifie que findAll retourne tous les articles du repository
     @Test
     void findAll_shouldReturnAllArticles() {
         List<Article> articles = List.of(new Article(), new Article());
@@ -38,6 +41,7 @@ class ArticleServiceTest {
         verify(articleRepository).findAll();
     }
 
+    // Vérifie que findById retourne l'article si présent
     @Test
     void findById_shouldReturnArticleIfExists() {
         Article article = new Article();
@@ -49,6 +53,7 @@ class ArticleServiceTest {
         verify(articleRepository).findById(1L);
     }
 
+    // Vérifie que save sauvegarde et retourne l'article
     @Test
     void save_shouldSaveAndReturnArticle() {
         Article article = new Article();
@@ -60,6 +65,7 @@ class ArticleServiceTest {
         verify(articleRepository).save(article);
     }
 
+    // Vérifie que deleteById appelle la suppression sur le repository
     @Test
     void deleteById_shouldCallRepositoryDelete() {
         articleService.deleteById(1L);
@@ -67,6 +73,7 @@ class ArticleServiceTest {
         verify(articleRepository).deleteById(1L);
     }
 
+    // Vérifie que findArticlesByAbonnements retourne les articles liés aux topics de l'utilisateur
     @Test
     void findArticlesByAbonnements_shouldReturnArticlesForUserTopics() {
         Topic topic1 = new Topic();
