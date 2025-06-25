@@ -1,7 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 
-import com.openclassrooms.mddapi.dto.RegisterRequest;
-import com.openclassrooms.mddapi.dto.LoginRequest;
+import com.openclassrooms.mddapi.dto.RegisterRequestDto;
+import com.openclassrooms.mddapi.dto.LoginRequestDto;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.service.UserService;
 import com.openclassrooms.mddapi.security.JwtUtil;
@@ -22,12 +22,12 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/register")
-    public User register(@RequestBody RegisterRequest request) {
+    public User register(@RequestBody RegisterRequestDto request) {
         return userService.register(request);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequestDto request) {
         User user = userService.authenticate(request.getIdentifier(), request.getPassword());
         String token = jwtUtil.generateToken(user.getUsername());
         if (token == null) {

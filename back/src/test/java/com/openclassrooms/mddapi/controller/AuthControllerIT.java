@@ -1,11 +1,10 @@
 package com.openclassrooms.mddapi.controller;
 
-import com.openclassrooms.mddapi.dto.RegisterRequest;
-import com.openclassrooms.mddapi.dto.LoginRequest;
+import com.openclassrooms.mddapi.dto.RegisterRequestDto;
+import com.openclassrooms.mddapi.dto.LoginRequestDto;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.security.JwtUtil;
-import com.openclassrooms.mddapi.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,7 +31,7 @@ class AuthControllerIT {
 
     @Test
     void register_shouldPersistUser() {
-        RegisterRequest request = new RegisterRequest();
+        RegisterRequestDto request = new RegisterRequestDto();
         request.setUsername("integrationUser");
         request.setEmail("integration@test.com");
         request.setPassword("password");
@@ -48,13 +47,13 @@ class AuthControllerIT {
     @Test
     void login_shouldReturnToken_whenCredentialsAreValid() {
         // Préparer un utilisateur
-        RegisterRequest reg = new RegisterRequest();
+        RegisterRequestDto reg = new RegisterRequestDto();
         reg.setUsername("loginUser");
         reg.setEmail("login@test.com");
         reg.setPassword("password");
         authController.register(reg);
 
-        LoginRequest request = new LoginRequest();
+        LoginRequestDto request = new LoginRequestDto();
         request.setIdentifier("loginUser");
         request.setPassword("password");
 
@@ -69,7 +68,7 @@ class AuthControllerIT {
 
     @Test
     void login_shouldReturn401_whenCredentialsAreInvalid() {
-        LoginRequest request = new LoginRequest();
+        LoginRequestDto request = new LoginRequestDto();
         request.setIdentifier("unknownUser");
         request.setPassword("wrong");
 

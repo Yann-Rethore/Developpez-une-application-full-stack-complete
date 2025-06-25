@@ -1,7 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 
-import com.openclassrooms.mddapi.dto.RegisterRequest;
-import com.openclassrooms.mddapi.dto.LoginRequest;
+import com.openclassrooms.mddapi.dto.RegisterRequestDto;
+import com.openclassrooms.mddapi.dto.LoginRequestDto;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.service.UserService;
 import com.openclassrooms.mddapi.security.JwtUtil;
@@ -33,7 +33,7 @@ class AuthControllerTest {
 
     @Test
     void register_shouldReturnUser() {
-        RegisterRequest request = new RegisterRequest();
+        RegisterRequestDto request = new RegisterRequestDto();
         User user = new User();
         when(userService.register(request)).thenReturn(user);
 
@@ -45,7 +45,7 @@ class AuthControllerTest {
 
     @Test
     void login_shouldReturnToken_whenCredentialsAreValid() {
-        LoginRequest request = new LoginRequest();
+        LoginRequestDto request = new LoginRequestDto();
         request.setIdentifier("user");
         request.setPassword("pass");
         User user = new User();
@@ -61,7 +61,7 @@ class AuthControllerTest {
 
     @Test
     void login_shouldReturn401_whenTokenIsNull() {
-        LoginRequest request = new LoginRequest();
+        LoginRequestDto request = new LoginRequestDto();
         request.setIdentifier("user");
         request.setPassword("wrong");
         User user = new User();
