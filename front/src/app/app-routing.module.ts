@@ -8,18 +8,22 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ArticleComponent } from './pages/article/article.component';
 import { ArticlesAbonnesComponent } from './pages/articles-abonnes/articles-abonnes.component';
 import { ArticleDetailComponent } from './pages/article-detail/article-detail.component';
+import { AuthGuard } from './guards/auth.guard';
 
 // consider a guard combined with canLoad / canActivate route option
 // to manage unauthenticated user to access private routes
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'themes', component: ThemeComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'article', component: ArticleComponent },
-  { path: 'article/abonnes', component: ArticlesAbonnesComponent }, // Dynamic route for article details
-  { path: 'article/:id', component: ArticleDetailComponent }
+
+  { path: '', component: HomeComponent }, // Accueil accessible à tous
+  { path: 'login', component: LoginComponent }, // Login accessible à tous
+  { path: 'register', component: RegisterComponent }, // Register accessible à tous
+
+  // Toutes les autres routes protégées
+  { path: 'themes', component: ThemeComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'article', component: ArticleComponent, canActivate: [AuthGuard] },
+  { path: 'article/abonnes', component: ArticlesAbonnesComponent, canActivate: [AuthGuard] }, // Dynamic route for article details
+  { path: 'article/:id', component: ArticleDetailComponent, canActivate: [AuthGuard] }
 
 ];
 
