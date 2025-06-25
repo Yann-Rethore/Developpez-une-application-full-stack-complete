@@ -10,6 +10,7 @@ describe('TopicService', () => {
   const apiUrl = `${environment.apiUrl}/themes`;
 
   beforeEach(() => {
+    // Configure le module de test avec HttpClientTestingModule pour intercepter les requêtes HTTP
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [TopicService]
@@ -19,13 +20,16 @@ describe('TopicService', () => {
   });
 
   afterEach(() => {
+    // Vérifie qu'aucune requête HTTP n'est en attente après chaque test
     httpMock.verify();
   });
 
-   it('should be created', () => {
+  // Test de création du service
+  it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
+  // Test de l'appel GET pour récupérer tous les thèmes
   it('should call GET on getAllTopics', () => {
     const mockTopics: TopicDto[] = [
       { id: 1, name: 'Thème 1', description: 'desc' },
@@ -39,6 +43,7 @@ describe('TopicService', () => {
     req.flush(mockTopics);
   });
 
+  // Test de l'appel GET pour s'abonner à un thème
   it('should call GET on subscribeToTopic', () => {
     service.subscribeToTopic(42).subscribe();
     const req = httpMock.expectOne(`${apiUrl}/subscribe/42`);
@@ -46,6 +51,7 @@ describe('TopicService', () => {
     req.flush({});
   });
 
+  // Test de l'appel GET pour se désabonner d'un thème
   it('should call GET on unsubscribeFromTopic', () => {
     service.unsubscribeFromTopic(99).subscribe();
     const req = httpMock.expectOne(`${apiUrl}/unsubscribe/99`);
@@ -53,6 +59,7 @@ describe('TopicService', () => {
     req.flush({});
   });
 
+  // Test de l'appel GET pour récupérer les abonnements utilisateur
   it('should call GET on getUserSubscriptions', () => {
     const mockIds = [1, 2, 3];
     service.getUserSubscriptions().subscribe(ids => {
