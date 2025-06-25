@@ -4,15 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserProfileUpdateDTO {
+public class UserProfileDto {
     private String username;
     private String email;
-    private String password;
-    private List<Long> desabonnements; // IDs des thèmes à retirer
-
+    private Set<TopicDto> abonnements;
 }
