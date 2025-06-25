@@ -1,3 +1,4 @@
+// Classe de test unitaire pour le contrôleur AuthController
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.RegisterRequestDto;
@@ -19,20 +20,21 @@ import static org.mockito.Mockito.*;
 class AuthControllerTest {
 
     @Mock
-    private UserService userService;
+    private UserService userService; // Mock du service utilisateur
 
     @Mock
-    private JwtUtil jwtUtil;
+    private JwtUtil jwtUtil; // Mock de l'utilitaire JWT
 
     @InjectMocks
-    private AuthController authController;
+    private AuthController authController; // Contrôleur testé avec injection des mocks
 
     public AuthControllerTest() {
-        MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this); // Initialise les mocks avant chaque test
     }
 
     @Test
     void register_shouldReturnUser() {
+        // Vérifie que l'inscription retourne bien l'utilisateur créé
         RegisterRequestDto request = new RegisterRequestDto();
         User user = new User();
         when(userService.register(request)).thenReturn(user);
@@ -45,6 +47,7 @@ class AuthControllerTest {
 
     @Test
     void login_shouldReturnToken_whenCredentialsAreValid() {
+        // Vérifie que la connexion retourne un token JWT si les identifiants sont valides
         LoginRequestDto request = new LoginRequestDto();
         request.setIdentifier("user");
         request.setPassword("pass");
@@ -61,6 +64,7 @@ class AuthControllerTest {
 
     @Test
     void login_shouldReturn401_whenTokenIsNull() {
+        // Vérifie que la connexion retourne une erreur 401 si le token JWT est null
         LoginRequestDto request = new LoginRequestDto();
         request.setIdentifier("user");
         request.setPassword("wrong");
