@@ -1,6 +1,6 @@
 package com.openclassrooms.mddapi.controller;
 
-import com.openclassrooms.mddapi.dto.ArticleCreateDTO;
+import com.openclassrooms.mddapi.dto.ArticleCreateDto;
 import com.openclassrooms.mddapi.dto.CommentaireRequestDto;
 import com.openclassrooms.mddapi.model.Article;
 import com.openclassrooms.mddapi.model.Commentaire;
@@ -13,7 +13,6 @@ import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.dto.ArticleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
@@ -39,7 +38,7 @@ public class ArticleController {
     private CommentaireRepository commentaireRepository;
 
     @PostMapping
-    public ResponseEntity<?> createArticle(@RequestBody ArticleCreateDTO dto, Principal principal) {
+    public ResponseEntity<?> createArticle(@RequestBody ArticleCreateDto dto, Principal principal) {
         String username = principal.getName();
         User auteur = userRepository.findByUsername(username).orElseThrow();
         Topic theme = topicRepository.findById(dto.getThemeId()).orElseThrow();

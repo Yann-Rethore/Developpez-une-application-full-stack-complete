@@ -2,9 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ArticleService } from '../../services/article.service';
 import { ArticleDto } from '../../interfaces/article.dto';
 
-import { Observable, of } from 'rxjs';
-import { map, catchError, startWith } from 'rxjs/operators';
-
 import { Observable, of, Subject } from 'rxjs';
 import { map, catchError, startWith, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -32,15 +29,6 @@ export class ArticlesAbonnesComponent implements   OnInit ,OnDestroy {
   }
   
  
-  loadArticles() {
-  sortDesc = true;
-
-  constructor(
-    private articleService: ArticleService,
-    private router: Router
-  ) {
-    this.loadArticles();
-  }
   loadArticles() {
     this.articles$ = this.articleService.getArticlesAbonnes().pipe(
       map(articles => ({

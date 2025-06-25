@@ -1,6 +1,6 @@
 package com.openclassrooms.mddapi.controller;
 
-import com.openclassrooms.mddapi.dto.ArticleCreateDTO;
+import com.openclassrooms.mddapi.dto.ArticleCreateDto;
 import com.openclassrooms.mddapi.dto.CommentaireRequestDto;
 import com.openclassrooms.mddapi.model.*;
 import com.openclassrooms.mddapi.repository.*;
@@ -62,7 +62,7 @@ class ArticleControllerIT {
 
     @Test
     void createArticle_shouldPersistArticle() {
-        ArticleCreateDTO dto = new ArticleCreateDTO();
+        ArticleCreateDto dto = new ArticleCreateDto();
         dto.setTitre("Titre");
         dto.setContenu("Contenu");
         dto.setThemeId(topic.getId());
