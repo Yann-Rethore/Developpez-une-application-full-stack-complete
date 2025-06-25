@@ -9,9 +9,11 @@ describe('AuthGuard', () => {
   let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(() => {
+    // Création des spies pour AuthService et Router
     authServiceSpy = jasmine.createSpyObj('AuthService', ['isLoggedIn']);
     routerSpy = jasmine.createSpyObj('Router', ['createUrlTree']);
 
+    // Configuration du module de test avec les dépendances nécessaires
     TestBed.configureTestingModule({
       providers: [
         AuthGuard,
@@ -20,14 +22,17 @@ describe('AuthGuard', () => {
       ]
     });
 
+    // Injection du guard à tester
     guard = TestBed.inject(AuthGuard);
   });
 
+  // Test : l'accès est autorisé si l'utilisateur est connecté
   it('should allow activation if user is logged in', () => {
     authServiceSpy.isLoggedIn.and.returnValue(true);
     expect(guard.canActivate()).toBeTrue();
   });
 
+  // Test : l'accès est refusé et redirige vers /login si l'utilisateur n'est pas connecté
   it('should redirect to /login if user is not logged in', () => {
     authServiceSpy.isLoggedIn.and.returnValue(false);
     const urlTree = {} as unknown as import('@angular/router').UrlTree;

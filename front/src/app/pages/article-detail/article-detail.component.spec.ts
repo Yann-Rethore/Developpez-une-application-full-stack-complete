@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ArticleService } from '../../services/article.service';
 import { Location } from '@angular/common';
-import { of, Subject } from 'rxjs';
+import { of } from 'rxjs';
 
 describe('ArticleDetailComponent', () => {
   let component: ArticleDetailComponent;
@@ -13,6 +13,7 @@ describe('ArticleDetailComponent', () => {
   let locationSpy: jasmine.SpyObj<Location>;
   let activatedRouteStub: any;
 
+  // Mock d'un article pour les tests
   const articleMock = {
     id: 1,
     titre: 'Titre',
@@ -24,10 +25,11 @@ describe('ArticleDetailComponent', () => {
   };
 
   beforeEach(async () => {
+    // Création des spies pour les services utilisés
     articleServiceSpy = jasmine.createSpyObj('ArticleService', ['getArticleById', 'ajouterCommentaire']);
     locationSpy = jasmine.createSpyObj('Location', ['back']);
 
-    // Simule un paramMap avec un id
+    // Simule un ActivatedRoute avec un paramMap contenant l'id
     activatedRouteStub = {
       paramMap: of({
         get: (key: string) => key === 'id' ? '1' : null
@@ -39,6 +41,7 @@ describe('ArticleDetailComponent', () => {
       }
     };
 
+    // Configuration du module de test avec les dépendances nécessaires
     await TestBed.configureTestingModule({
       declarations: [ArticleDetailComponent],
       imports: [ReactiveFormsModule],
@@ -49,14 +52,17 @@ describe('ArticleDetailComponent', () => {
       ]
     }).compileComponents();
 
+    // Création de l'instance du composant à tester
     fixture = TestBed.createComponent(ArticleDetailComponent);
     component = fixture.componentInstance;
   });
 
+  // Test de création du composant
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  // Test du chargement de l'article à l'initialisation
   it('should load article on init', (done) => {
     articleServiceSpy.getArticleById.and.returnValue(of(articleMock));
     component.ngOnInit();
@@ -66,6 +72,7 @@ describe('ArticleDetailComponent', () => {
     });
   });
 
+  // Test de l'ajout d'un commentaire valide
   it('should call ajouterCommentaire and reset form on valid submit', () => {
     articleServiceSpy.ajouterCommentaire.and.returnValue(of({}));
     articleServiceSpy.getArticleById.and.returnValue(of(articleMock));
@@ -79,17 +86,20 @@ describe('ArticleDetailComponent', () => {
     expect(component.commentaireSuccess).toBeTrue();
   });
 
+  // Test de la non-soumission si le formulaire est invalide
   it('should not call ajouterCommentaire if form is invalid', () => {
     component.commentaireForm.setValue({ contenu: '' });
     component.ajouterCommentaire();
     expect(articleServiceSpy.ajouterCommentaire).not.toHaveBeenCalled();
   });
 
+  // Test du retour arrière via la méthode goBack
   it('should call location.back on goBack()', () => {
     component.goBack();
     expect(locationSpy.back).toHaveBeenCalled();
   });
 
+  // Test du nettoyage des subscriptions lors de la destruction du composant
   it('should clean up destroy$ on ngOnDestroy', () => {
     spyOn(component['destroy$'], 'next');
     spyOn(component['destroy$'], 'complete');

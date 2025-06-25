@@ -14,31 +14,36 @@ describe('ArticleComponent', () => {
   let locationSpy: jasmine.SpyObj<Location>;
 
   beforeEach(async () => {
-  articleServiceSpy = jasmine.createSpyObj('ArticleService', ['createArticle']);
-  topicServiceSpy = jasmine.createSpyObj('TopicService', ['getAllTopics']);
-  locationSpy = jasmine.createSpyObj('Location', ['back']);
+    // Création des spies pour les services utilisés par le composant
+    articleServiceSpy = jasmine.createSpyObj('ArticleService', ['createArticle']);
+    topicServiceSpy = jasmine.createSpyObj('TopicService', ['getAllTopics']);
+    locationSpy = jasmine.createSpyObj('Location', ['back']);
 
-  
-  topicServiceSpy.getAllTopics.and.returnValue(of([]));
+    // Par défaut, retourne une liste vide de thèmes
+    topicServiceSpy.getAllTopics.and.returnValue(of([]));
 
-  await TestBed.configureTestingModule({
-    declarations: [ArticleComponent],
-    imports: [ReactiveFormsModule],
-    providers: [
-      { provide: ArticleService, useValue: articleServiceSpy },
-      { provide: TopicService, useValue: topicServiceSpy },
-      { provide: Location, useValue: locationSpy }
-    ]
-  }).compileComponents();
+    // Configuration du module de test avec les dépendances nécessaires
+    await TestBed.configureTestingModule({
+      declarations: [ArticleComponent],
+      imports: [ReactiveFormsModule],
+      providers: [
+        { provide: ArticleService, useValue: articleServiceSpy },
+        { provide: TopicService, useValue: topicServiceSpy },
+        { provide: Location, useValue: locationSpy }
+      ]
+    }).compileComponents();
 
-  fixture = TestBed.createComponent(ArticleComponent);
-  component = fixture.componentInstance;
-});
+    // Création de l'instance du composant à tester
+    fixture = TestBed.createComponent(ArticleComponent);
+    component = fixture.componentInstance;
+  });
 
+  // Test de création du composant
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  // Test du chargement des thèmes à l'initialisation
   it('should load topics on init', (done) => {
     const topicsMock = [
       { id: 1, name: 'Thème 1', description : 'Description 1' },
@@ -53,6 +58,7 @@ describe('ArticleComponent', () => {
     });
   });
 
+  // Test de la soumission du formulaire valide
   it('should call ArticleService.createArticle on valid submit', (done) => {
     articleServiceSpy.createArticle.and.returnValue(of({}));
     component.ngOnInit();
@@ -62,8 +68,6 @@ describe('ArticleComponent', () => {
       contenu: 'Contenu',
       themeId: 1
     });
-    
-    
 
     component.success$.subscribe(success => {
       if (success) {
@@ -78,6 +82,7 @@ describe('ArticleComponent', () => {
     component.onSubmit();
   });
 
+  // Test de la soumission du formulaire invalide
   it('should not call ArticleService.createArticle if form is invalid', (done) => {
     articleServiceSpy.createArticle.and.returnValue(of({}));
     component.articleForm.setValue({
@@ -95,11 +100,13 @@ describe('ArticleComponent', () => {
     });
   });
 
+  // Test du retour arrière via la méthode goBack
   it('should call location.back on goBack()', () => {
     component.goBack();
     expect(locationSpy.back).toHaveBeenCalled();
   });
 
+  // Test du nettoyage des subscriptions lors de la destruction du composant
   it('should clean up destroy$ on ngOnDestroy', () => {
     spyOn(component['destroy$'], 'next');
     spyOn(component['destroy$'], 'complete');
