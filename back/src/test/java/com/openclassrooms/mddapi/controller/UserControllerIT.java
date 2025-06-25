@@ -1,3 +1,4 @@
+// Classe de test d'intégration pour le contrôleur UserController
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.UserProfileDto;
@@ -20,8 +21,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
+@SpringBootTest // Lance le contexte Spring Boot pour les tests d'intégration
+@Transactional // Chaque test s'exécute dans une transaction isolée
 class UserControllerIT {
 
     @Autowired
@@ -43,6 +44,7 @@ class UserControllerIT {
 
     @BeforeEach
     void setUp() {
+        // Prépare deux thèmes et un utilisateur abonné aux deux
         topic1 = new Topic();
         topic1.setName("Java");
         topic1.setDescription("desc1");
@@ -60,11 +62,13 @@ class UserControllerIT {
         user.setAbonnements(new HashSet<>(List.of(topic1, topic2)));
         userRepository.save(user);
 
+        // Simule l'utilisateur authentifié
         principal = () -> "integrationUser";
     }
 
     @Test
     void getProfile_shouldReturnUserProfileDTO() {
+        // Vérifie que la récupération du profil retourne bien les infos attendues
         ResponseEntity<UserProfileDto> response = userController.getProfile(principal);
 
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
@@ -76,6 +80,7 @@ class UserControllerIT {
 
     @Test
     void updateProfile_shouldUpdateFieldsAndDesabonnements() {
+        // Vérifie que la mise à jour du profil modifie bien les champs et gère les désabonnements
         UserProfileUpdateDto updates = new UserProfileUpdateDto();
         updates.setUsername("newuser");
         updates.setEmail("new@test.com");
