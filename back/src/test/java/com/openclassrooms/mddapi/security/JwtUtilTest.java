@@ -1,3 +1,4 @@
+// Classe de test unitaire pour JwtUtil
 package com.openclassrooms.mddapi.security;
 
 import io.jsonwebtoken.security.SignatureException;
@@ -11,6 +12,7 @@ class JwtUtilTest {
 
     private JwtUtil jwtUtil;
 
+    // Initialise JwtUtil et injecte les champs privés avant chaque test
     @BeforeEach
     void setUp() throws Exception {
         jwtUtil = new JwtUtil();
@@ -18,12 +20,14 @@ class JwtUtilTest {
         setField(jwtUtil, "jwtExpirationMs", 3600000L); // 1h
     }
 
+    // Méthode utilitaire pour injecter une valeur dans un champ privé via la réflexion
     private void setField(Object target, String fieldName, Object value) throws Exception {
         Field field = JwtUtil.class.getDeclaredField(fieldName);
         field.setAccessible(true);
         field.set(target, value);
     }
 
+    // Vérifie que la génération et la validation d'un token fonctionnent
     @Test
     void generateToken_and_validateJwtToken_shouldWork() {
         String username = "unitUser";
@@ -33,6 +37,7 @@ class JwtUtilTest {
         assertThat(jwtUtil.validateJwtToken(token)).isTrue();
     }
 
+    // Vérifie que l'extraction du nom d'utilisateur depuis le token fonctionne
     @Test
     void getUsernameFromToken_shouldReturnCorrectUsername() {
         String username = "unitUser";
@@ -42,6 +47,7 @@ class JwtUtilTest {
         assertThat(extractedUsername).isEqualTo(username);
     }
 
+    // Vérifie que la validation échoue avec un token invalide
     @Test
     void validateJwtToken_withInvalidToken_shouldReturnFalse() {
         String invalidToken = "invalid.token.value";
