@@ -1,3 +1,4 @@
+// Classe de test unitaire pour le modèle Article
 package com.openclassrooms.mddapi.model;
 
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ class ArticleTest {
 
     @Test
     void shouldCreateArticleWithAllArgsConstructor() {
+        // Vérifie la création d'un Article avec tous les arguments du constructeur
         Topic topic = new Topic();
         User auteur = new User();
         LocalDateTime now = LocalDateTime.now();
@@ -36,6 +38,7 @@ class ArticleTest {
 
     @Test
     void shouldSetAndGetFields() {
+        // Vérifie les accesseurs et mutateurs (getters/setters)
         Article article = new Article();
         Topic topic = new Topic();
         User auteur = new User();
@@ -55,6 +58,7 @@ class ArticleTest {
 
     @Test
     void commentairesListShouldBeMutable() {
+        // Vérifie que la liste des commentaires est modifiable
         Article article = new Article();
         Commentaire commentaire = new Commentaire();
         article.getCommentaires().add(commentaire);
@@ -65,6 +69,7 @@ class ArticleTest {
 
     @Test
     void equalsAndHashCodeShouldWork() {
+        // Vérifie le bon fonctionnement de equals et hashCode
         Topic topic = new Topic();
         User auteur = new User();
         LocalDateTime now = LocalDateTime.now();
@@ -80,6 +85,7 @@ class ArticleTest {
 
     @Test
     void toStringShouldContainFields() {
+        // Vérifie que toString contient les champs principaux
         Topic topic = new Topic();
         topic.setId(10L);
         User auteur = new User();
@@ -90,13 +96,14 @@ class ArticleTest {
 
         String toString = article.toString();
         assertThat(toString).contains("id=1");
-        assertThat(toString).contains("titre=Titre"); // sans quotes
+        assertThat(toString).contains("titre=Titre");
         assertThat(toString).contains("topic=Topic(id=10");
         assertThat(toString).contains("auteur=User(id=20");
     }
 
     @Test
     void equalsShouldHandleVariousCases() {
+        // Vérifie le comportement de equals dans différents cas
         Topic topic = new Topic();
         User auteur = new User();
         LocalDateTime now = LocalDateTime.now();
@@ -105,24 +112,16 @@ class ArticleTest {
         Article a2 = new Article(1L, "Titre", "Contenu", topic, auteur, now, Collections.emptyList());
         Article a3 = new Article(2L, "Titre", "Contenu", topic, auteur, now, Collections.emptyList());
 
-        // égalité avec soi-même
-        assertThat(a1).isEqualTo(a1);
-
-        // égalité avec un objet identique
-        assertThat(a1).isEqualTo(a2);
-
-        // inégalité avec un objet de type différent
-        assertThat(a1).isNotEqualTo("string");
-
-        // inégalité avec null
-        assertThat(a1).isNotEqualTo(null);
-
-        // inégalité avec un autre id
-        assertThat(a1).isNotEqualTo(a3);
+        assertThat(a1).isEqualTo(a1); // égalité avec soi-même
+        assertThat(a1).isEqualTo(a2); // égalité avec un objet identique
+        assertThat(a1).isNotEqualTo("string"); // inégalité avec un type différent
+        assertThat(a1).isNotEqualTo(null); // inégalité avec null
+        assertThat(a1).isNotEqualTo(a3); // inégalité avec un autre id
     }
 
     @Test
     void equalsShouldHandleNullFields() {
+        // Vérifie le comportement de equals avec des champs null
         Article a1 = new Article(null, null, null, null, null, null, null);
         Article a2 = new Article(null, null, null, null, null, null, null);
         Article a3 = new Article(1L, null, null, null, null, null, null);
@@ -133,10 +132,7 @@ class ArticleTest {
         Article a8 = new Article(null, null, null, null, null, LocalDateTime.now(), null);
         Article a9 = new Article(null, null, null, null, null, null, Collections.singletonList(new Commentaire()));
 
-        // Tous les champs null
-        assertThat(a1).isEqualTo(a2);
-
-        // Un champ non null
+        assertThat(a1).isEqualTo(a2); // tous les champs null
         assertThat(a1).isNotEqualTo(a3);
         assertThat(a1).isNotEqualTo(a4);
         assertThat(a1).isNotEqualTo(a5);
@@ -148,6 +144,7 @@ class ArticleTest {
 
     @Test
     void equalsShouldHandleNullVsNonNullFields() {
+        // Vérifie equals avec des champs null vs non null
         Topic topic = new Topic();
         User auteur = new User();
         LocalDateTime now = LocalDateTime.now();
@@ -171,6 +168,7 @@ class ArticleTest {
 
     @Test
     void hashCodeShouldHandleNullFields() {
+        // Vérifie que hashCode fonctionne avec des champs null
         Article a1 = new Article(null, null, null, null, null, null, null);
         Article a2 = new Article(null, null, null, null, null, null, null);
         assertThat(a1.hashCode()).isEqualTo(a2.hashCode());
@@ -178,6 +176,7 @@ class ArticleTest {
 
     @Test
     void equalsShouldReturnFalseForDifferentTypeAndNull() {
+        // Vérifie que equals retourne false pour un type différent ou null
         Article a = new Article();
         assertThat(a).isNotEqualTo("string");
         assertThat(a).isNotEqualTo(null);
@@ -185,6 +184,7 @@ class ArticleTest {
 
     @Test
     void toStringShouldContainAllFieldsEvenIfNull() {
+        // Vérifie que toString contient tous les champs même s'ils sont null
         Article article = new Article();
         String str = article.toString();
         assertThat(str).contains("id=");

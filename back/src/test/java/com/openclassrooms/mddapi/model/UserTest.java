@@ -1,11 +1,10 @@
+// Classe de test unitaire pour le modèle User
 package com.openclassrooms.mddapi.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,6 +12,7 @@ class UserTest {
 
     @Test
     void shouldCreateUserWithAllArgsConstructor() {
+        // Vérifie la création d'un User avec tous les arguments du constructeur
         Topic topic = new Topic();
         HashSet<Topic> abonnements = new HashSet<>();
         abonnements.add(topic);
@@ -34,6 +34,7 @@ class UserTest {
 
     @Test
     void shouldSetAndGetFields() {
+        // Vérifie les accesseurs et mutateurs (getters/setters)
         User user = new User();
         user.setId(42L);
         user.setEmail("test@x.fr");
@@ -50,6 +51,7 @@ class UserTest {
 
     @Test
     void abonnementsSetShouldBeMutable() {
+        // Vérifie que l'ensemble des abonnements est modifiable
         User user = new User();
         Topic topic = new Topic();
         user.getAbonnements().add(topic);
@@ -60,6 +62,7 @@ class UserTest {
 
     @Test
     void hashCodeShouldBeConsistentForEqualUsers() {
+        // Vérifie que hashCode est cohérent pour des utilisateurs égaux
         User u1 = new User(1L, "mail@test.com", "pass", "user", null);
         User u2 = new User(1L, "mail@test.com", "pass", "user", null);
         User u3 = new User(2L, "other@mail.com", "pass2", "other", null);
@@ -70,18 +73,19 @@ class UserTest {
 
     @Test
     void toStringShouldContainFields() {
+        // Vérifie que toString contient les champs principaux
         User user = new User(1L, "mail@test.com", "pass", "user", null);
 
         String toString = user.toString();
         assertThat(toString).contains("id=1");
-        assertThat(toString).contains("email=mail@test.com"); // sans quotes
+        assertThat(toString).contains("email=mail@test.com");
         assertThat(toString).contains("password=pass");
-        assertThat(toString).contains("username=user"); // sans quotes
+        assertThat(toString).contains("username=user");
     }
-
 
     @Test
     void equalsAndHashCodeShouldCoverAllBranches() {
+        // Vérifie le bon fonctionnement de equals et hashCode sur tous les cas
         Set<Topic> emptySet = Set.of();
         Set<Topic> setWithOne = Set.of(new Topic());
 
@@ -94,14 +98,11 @@ class UserTest {
         User u7 = new User(1L, "a@b.com", "pass", "user", setWithOne);
         User u8 = new User(1L, "a@b.com", "pass", "user", null);
 
-        // égalité avec soi-même
-        assertThat(u1).isEqualTo(u1);
-
-        // égalité avec un objet identique
-        assertThat(u1).isEqualTo(u2);
+        assertThat(u1).isEqualTo(u1); // égalité avec soi-même
+        assertThat(u1).isEqualTo(u2); // égalité avec un objet identique
         assertThat(u1.hashCode()).isEqualTo(u2.hashCode());
 
-        // inégalité sur chaque champ
+        // inégalités sur chaque champ
         assertThat(u1).isNotEqualTo(u3); // id
         assertThat(u1).isNotEqualTo(u4); // email
         assertThat(u1).isNotEqualTo(u5); // password
@@ -109,15 +110,13 @@ class UserTest {
         assertThat(u1).isNotEqualTo(u7); // abonnements
         assertThat(u1).isNotEqualTo(u8); // abonnements null vs vide
 
-        // inégalité avec un objet d’un autre type
-        assertThat(u1).isNotEqualTo("string");
-
-        // inégalité avec null
-        assertThat(u1).isNotEqualTo(null);
+        assertThat(u1).isNotEqualTo("string"); // autre type
+        assertThat(u1).isNotEqualTo(null); // null
     }
 
     @Test
     void equalsShouldHandleNullFields() {
+        // Vérifie le comportement de equals avec des champs null
         User u1 = new User(null, null, null, null, null);
         User u2 = new User(null, null, null, null, null);
         User u3 = new User(1L, null, null, null, null);
@@ -126,10 +125,7 @@ class UserTest {
         User u6 = new User(null, null, null, "user", null);
         User u7 = new User(null, null, null, null, Set.of(new Topic()));
 
-        // Tous les champs null
-        assertThat(u1).isEqualTo(u2);
-
-        // Un champ non null
+        assertThat(u1).isEqualTo(u2); // tous les champs null
         assertThat(u1).isNotEqualTo(u3);
         assertThat(u1).isNotEqualTo(u4);
         assertThat(u1).isNotEqualTo(u5);
@@ -144,6 +140,7 @@ class UserTest {
 
     @Test
     void hashCodeShouldHandleNullFields() {
+        // Vérifie que hashCode fonctionne avec des champs null
         User u1 = new User(null, null, null, null, null);
         User u2 = new User(null, null, null, null, null);
         assertThat(u1.hashCode()).isEqualTo(u2.hashCode());

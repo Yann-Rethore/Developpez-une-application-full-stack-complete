@@ -1,8 +1,9 @@
+// Classe de test unitaire pour le contrôleur UserController
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.TopicDto;
-import com.openclassrooms.mddapi.dto.UserProfileDTO;
-import com.openclassrooms.mddapi.dto.UserProfileUpdateDTO;
+import com.openclassrooms.mddapi.dto.UserProfileDto;
+import com.openclassrooms.mddapi.dto.UserProfileUpdateDto;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
@@ -22,24 +23,24 @@ import static org.mockito.Mockito.*;
 class UserControllerTest {
 
     @InjectMocks
-    private UserController userController;
+    private UserController userController; // Contrôleur testé avec injection des mocks
 
     @Mock
-    private UserRepository userRepository;
+    private UserRepository userRepository; // Mock du repository utilisateur
     @Mock
-    private TopicRepository topicRepository;
+    private TopicRepository topicRepository; // Mock du repository thème
     @Mock
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder; // Mock de l'encodeur de mot de passe
 
     @Mock
-    private Principal principal;
+    private Principal principal; // Mock du principal (utilisateur connecté)
 
     private User user;
     private Topic topic;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this); // Initialise les mocks avant chaque test
         user = new User();
         user.setUsername("user");
         user.setEmail("user@test.com");
@@ -52,13 +53,14 @@ class UserControllerTest {
 
     @Test
     void getProfile_shouldReturnUserProfileDTO() {
+        // Vérifie que la récupération du profil retourne bien les infos attendues
         when(principal.getName()).thenReturn("user");
         when(userRepository.findWithAbonnementsByUsername("user")).thenReturn(Optional.of(user));
 
-        ResponseEntity<UserProfileDTO> response = userController.getProfile(principal);
+        ResponseEntity<UserProfileDto> response = userController.getProfile(principal);
 
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
-        UserProfileDTO dto = response.getBody();
+        UserProfileDto dto = response.getBody();
         assertThat(dto.getUsername()).isEqualTo("user");
         assertThat(dto.getEmail()).isEqualTo("user@test.com");
         assertThat(dto.getAbonnements()).extracting(TopicDto::getId).contains(1L);
@@ -66,11 +68,12 @@ class UserControllerTest {
 
     @Test
     void updateProfile_shouldUpdateFields() {
+        // Vérifie que la mise à jour du profil modifie bien les champs et gère les désabonnements
         when(principal.getName()).thenReturn("user");
         when(userRepository.findWithAbonnementsByUsername("user")).thenReturn(Optional.of(user));
         when(passwordEncoder.encode("newpass")).thenReturn("encoded");
 
-        UserProfileUpdateDTO updates = new UserProfileUpdateDTO();
+        UserProfileUpdateDto updates = new UserProfileUpdateDto();
         updates.setUsername("newuser");
         updates.setEmail("new@test.com");
         updates.setPassword("newpass");
@@ -88,11 +91,11 @@ class UserControllerTest {
 
     @Test
     void updateProfile_shouldNotUpdateFieldsIfNull() {
+        // Vérifie qu'aucune modification n'est faite si les champs sont à null
         when(principal.getName()).thenReturn("user");
         when(userRepository.findWithAbonnementsByUsername("user")).thenReturn(Optional.of(user));
 
-        // username, email, password, desabonnements à null
-        UserProfileUpdateDTO updates = new UserProfileUpdateDTO();
+        UserProfileUpdateDto updates = new UserProfileUpdateDto();
         updates.setUsername(null);
         updates.setEmail(null);
         updates.setPassword(null);
@@ -101,7 +104,6 @@ class UserControllerTest {
         ResponseEntity<?> response = userController.updateProfile(principal, updates);
 
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
-        // Les valeurs d'origine ne changent pas
         assertThat(user.getUsername()).isEqualTo("user");
         assertThat(user.getEmail()).isEqualTo("user@test.com");
         assertThat(user.getPassword()).isNull();
@@ -111,10 +113,11 @@ class UserControllerTest {
 
     @Test
     void updateProfile_shouldNotRemoveAbonnementsIfDesabonnementsEmpty() {
+        // Vérifie qu'aucun abonnement n'est retiré si la liste des désabonnements est vide
         when(principal.getName()).thenReturn("user");
         when(userRepository.findWithAbonnementsByUsername("user")).thenReturn(Optional.of(user));
 
-        UserProfileUpdateDTO updates = new UserProfileUpdateDTO();
+        UserProfileUpdateDto updates = new UserProfileUpdateDto();
         updates.setDesabonnements(Collections.emptyList());
 
         ResponseEntity<?> response = userController.updateProfile(principal, updates);

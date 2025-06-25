@@ -10,6 +10,7 @@ describe('ProfileService', () => {
   const apiUrl = `${environment.apiUrl}/profile`;
 
   beforeEach(() => {
+    // Configure le module de test avec HttpClientTestingModule pour intercepter les requêtes HTTP
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [ProfileService]
@@ -19,13 +20,16 @@ describe('ProfileService', () => {
   });
 
   afterEach(() => {
+    // Vérifie qu'aucune requête HTTP n'est en attente après chaque test
     httpMock.verify();
   });
 
+  // Test de création du service
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
+  // Test de l'appel GET pour récupérer le profil utilisateur
   it('should call GET on getProfile', () => {
     const mockProfile: UserProfileDTO = {
       username: 'user',
@@ -40,6 +44,7 @@ describe('ProfileService', () => {
     req.flush(mockProfile);
   });
 
+  // Test de l'appel PUT pour mettre à jour le profil utilisateur
   it('should call PUT on updateProfile', () => {
     const update: UserProfileUpdateDTO = { username: 'newuser' };
     const mockResponse = {};

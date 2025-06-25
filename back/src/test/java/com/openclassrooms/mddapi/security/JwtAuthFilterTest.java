@@ -1,3 +1,4 @@
+// Classe de test unitaire pour JwtAuthFilter
 package com.openclassrooms.mddapi.security;
 
 import jakarta.servlet.FilterChain;
@@ -18,7 +19,7 @@ import static org.mockito.Mockito.*;
 class JwtAuthFilterTest {
 
     @Mock
-    private JwtUtil jwtUtil;
+    private JwtUtil jwtUtil; // Mock de l'utilitaire JWT
 
     @Mock
     private HttpServletRequest request;
@@ -30,16 +31,17 @@ class JwtAuthFilterTest {
     private FilterChain filterChain;
 
     @InjectMocks
-    private JwtAuthFilter jwtAuthFilter;
+    private JwtAuthFilter jwtAuthFilter; // Filtre à tester
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        SecurityContextHolder.clearContext();
+        SecurityContextHolder.clearContext(); // Réinitialise le contexte de sécurité
     }
 
     @Test
     void doFilterInternal_validToken_setsAuthentication() throws ServletException, IOException {
+        // Simule un header Authorization avec un token valide
         String token = "valid.jwt.token";
         String username = "user";
         when(request.getHeader("Authorization")).thenReturn("Bearer " + token);
@@ -56,6 +58,7 @@ class JwtAuthFilterTest {
 
     @Test
     void doFilterInternal_invalidToken_doesNotSetAuthentication() throws ServletException, IOException {
+        // Simule un token invalide
         String token = "invalid.jwt.token";
         when(request.getHeader("Authorization")).thenReturn("Bearer " + token);
         when(jwtUtil.validateJwtToken(token)).thenReturn(false);
@@ -69,6 +72,7 @@ class JwtAuthFilterTest {
 
     @Test
     void doFilterInternal_noAuthorizationHeader_doesNotSetAuthentication() throws ServletException, IOException {
+        // Simule l'absence de header Authorization
         when(request.getHeader("Authorization")).thenReturn(null);
 
         jwtAuthFilter.doFilterInternal(request, response, filterChain);

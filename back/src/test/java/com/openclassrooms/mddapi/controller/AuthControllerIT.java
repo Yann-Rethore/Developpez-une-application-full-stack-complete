@@ -1,11 +1,11 @@
+// Classe de test d'intégration pour le contrôleur AuthController
 package com.openclassrooms.mddapi.controller;
 
-import com.openclassrooms.mddapi.dto.RegisterRequest;
-import com.openclassrooms.mddapi.dto.LoginRequest;
+import com.openclassrooms.mddapi.dto.RegisterRequestDto;
+import com.openclassrooms.mddapi.dto.LoginRequestDto;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.security.JwtUtil;
-import com.openclassrooms.mddapi.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,8 +17,8 @@ import java.util.Map;
 import static com.jayway.jsonpath.internal.path.PathCompiler.fail;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
+@SpringBootTest // Lance le contexte Spring Boot pour les tests d'intégration
+@Transactional // Garantit que chaque test s'exécute dans une transaction isolée
 class AuthControllerIT {
 
     @Autowired
@@ -32,7 +32,8 @@ class AuthControllerIT {
 
     @Test
     void register_shouldPersistUser() {
-        RegisterRequest request = new RegisterRequest();
+        // Vérifie que l'inscription d'un utilisateur persiste bien en base
+        RegisterRequestDto request = new RegisterRequestDto();
         request.setUsername("integrationUser");
         request.setEmail("integration@test.com");
         request.setPassword("password");
@@ -47,14 +48,14 @@ class AuthControllerIT {
 
     @Test
     void login_shouldReturnToken_whenCredentialsAreValid() {
-        // Préparer un utilisateur
-        RegisterRequest reg = new RegisterRequest();
+        // Vérifie que la connexion retourne un token JWT valide avec de bons identifiants
+        RegisterRequestDto reg = new RegisterRequestDto();
         reg.setUsername("loginUser");
         reg.setEmail("login@test.com");
         reg.setPassword("password");
         authController.register(reg);
 
-        LoginRequest request = new LoginRequest();
+        LoginRequestDto request = new LoginRequestDto();
         request.setIdentifier("loginUser");
         request.setPassword("password");
 
@@ -62,14 +63,14 @@ class AuthControllerIT {
 
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
         assertThat(response.getBody()).containsKey("token");
-        // Vérifie que le token est valide
         String token = response.getBody().get("token");
         assertThat(jwtUtil.validateJwtToken(token)).isTrue();
     }
 
     @Test
     void login_shouldReturn401_whenCredentialsAreInvalid() {
-        LoginRequest request = new LoginRequest();
+        // Vérifie que la connexion échoue avec de mauvais identifiants
+        LoginRequestDto request = new LoginRequestDto();
         request.setIdentifier("unknownUser");
         request.setPassword("wrong");
 

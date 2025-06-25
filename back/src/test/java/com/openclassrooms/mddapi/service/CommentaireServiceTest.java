@@ -1,3 +1,4 @@
+// Classe de test unitaire pour CommentaireService
 package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.model.Commentaire;
@@ -10,20 +11,21 @@ import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-
 class CommentaireServiceTest {
 
     @Mock
-    private CommentaireRepository commentaireRepository;
+    private CommentaireRepository commentaireRepository; // Mock du repository
 
     @InjectMocks
-    private CommentaireService commentaireService;
+    private CommentaireService commentaireService; // Service à tester
 
+    // Initialise les mocks avant chaque test
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
+    // Vérifie que findAll retourne tous les commentaires du repository
     @Test
     void findAll_shouldReturnAllCommentaires() {
         List<Commentaire> commentaires = List.of(new Commentaire(), new Commentaire());
@@ -35,6 +37,7 @@ class CommentaireServiceTest {
         verify(commentaireRepository).findAll();
     }
 
+    // Vérifie que findById retourne le commentaire si présent
     @Test
     void findById_shouldReturnCommentaireIfExists() {
         Commentaire commentaire = new Commentaire();
@@ -46,6 +49,7 @@ class CommentaireServiceTest {
         verify(commentaireRepository).findById(1L);
     }
 
+    // Vérifie que save sauvegarde et retourne le commentaire
     @Test
     void save_shouldSaveAndReturnCommentaire() {
         Commentaire commentaire = new Commentaire();
@@ -57,6 +61,7 @@ class CommentaireServiceTest {
         verify(commentaireRepository).save(commentaire);
     }
 
+    // Vérifie que deleteById appelle la suppression sur le repository
     @Test
     void deleteById_shouldCallRepositoryDelete() {
         commentaireService.deleteById(1L);

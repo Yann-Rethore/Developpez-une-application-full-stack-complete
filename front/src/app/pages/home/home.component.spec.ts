@@ -11,9 +11,11 @@ describe('HomeComponent', () => {
   let authServiceSpy: jasmine.SpyObj<AuthService>;
 
   beforeEach(async () => {
+    // Création des spies pour Router et AuthService
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     authServiceSpy = jasmine.createSpyObj('AuthService', ['isLoggedIn']);
 
+    // Configuration du module de test avec les dépendances nécessaires
     await TestBed.configureTestingModule({
       declarations: [HomeComponent],
       imports: [HttpClientTestingModule],
@@ -23,20 +25,24 @@ describe('HomeComponent', () => {
       ]
     }).compileComponents();
 
+    // Création de l'instance du composant à tester
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
   });
 
+  // Test de création du composant
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  // Test de la redirection si l'utilisateur est connecté
   it('should navigate to /article/abonnes if user is logged in', () => {
     authServiceSpy.isLoggedIn.and.returnValue(true);
     component.ngOnInit();
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/article/abonnes']);
   });
 
+  // Test de l'absence de redirection si l'utilisateur n'est pas connecté
   it('should not navigate if user is not logged in', () => {
     authServiceSpy.isLoggedIn.and.returnValue(false);
     component.ngOnInit();

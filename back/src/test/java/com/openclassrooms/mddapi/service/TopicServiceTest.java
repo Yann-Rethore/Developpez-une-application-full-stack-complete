@@ -1,3 +1,4 @@
+// Classe de test unitaire pour TopicService
 package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.model.Topic;
@@ -14,16 +15,18 @@ import static org.mockito.Mockito.*;
 class TopicServiceTest {
 
     @Mock
-    private TopicRepository topicRepository;
+    private TopicRepository topicRepository; // Mock du repository
 
     @InjectMocks
-    private TopicService topicService;
+    private TopicService topicService; // Service à tester
 
+    // Initialise les mocks avant chaque test
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
+    // Vérifie que findAll retourne tous les topics du repository
     @Test
     void findAll_shouldReturnAllTopics() {
         List<Topic> topics = List.of(new Topic(), new Topic());
@@ -35,6 +38,7 @@ class TopicServiceTest {
         verify(topicRepository).findAll();
     }
 
+    // Vérifie que findById retourne le topic si présent
     @Test
     void findById_shouldReturnTopicIfExists() {
         Topic topic = new Topic();
@@ -46,6 +50,7 @@ class TopicServiceTest {
         verify(topicRepository).findById(1L);
     }
 
+    // Vérifie que save sauvegarde et retourne le topic
     @Test
     void save_shouldSaveAndReturnTopic() {
         Topic topic = new Topic();
@@ -57,6 +62,7 @@ class TopicServiceTest {
         verify(topicRepository).save(topic);
     }
 
+    // Vérifie que deleteById appelle la suppression sur le repository
     @Test
     void deleteById_shouldCallRepositoryDelete() {
         topicService.deleteById(1L);
@@ -64,6 +70,7 @@ class TopicServiceTest {
         verify(topicRepository).deleteById(1L);
     }
 
+    // Vérifie que getAllTopics retourne une liste de TopicDto correctement mappée
     @Test
     void getAllTopics_shouldReturnListOfTopicDto() {
         Topic topic = new Topic();
