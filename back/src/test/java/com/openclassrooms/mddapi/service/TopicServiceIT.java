@@ -1,3 +1,4 @@
+// Classe de test d'intégration pour TopicService
 package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.model.Topic;
@@ -14,17 +15,18 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
-@Import(TopicService.class)
-@ActiveProfiles("test")
+@DataJpaTest // Configure un contexte JPA en mémoire pour les tests
+@Import(TopicService.class) // Importe le service à tester
+@ActiveProfiles("test") // Utilise le profil de test
 class TopicServiceIT {
 
     @Autowired
-    private TopicService topicService;
+    private TopicService topicService; // Service à tester
 
     @Autowired
     private TopicRepository topicRepository;
 
+    // Teste la sauvegarde et la récupération de tous les topics
     @Test
     void saveAndFindAll_shouldPersistAndReturnTopics() {
         Topic topic = new Topic();
@@ -37,6 +39,7 @@ class TopicServiceIT {
         assertThat(topics.get(0).getName()).isEqualTo("Java");
     }
 
+    // Teste la récupération d’un topic par son identifiant
     @Test
     void findById_shouldReturnSavedTopic() {
         Topic topic = new Topic();
@@ -49,6 +52,7 @@ class TopicServiceIT {
         assertThat(found.get().getName()).isEqualTo("Spring");
     }
 
+    // Teste la suppression d’un topic par son identifiant
     @Test
     void deleteById_shouldRemoveTopic() {
         Topic topic = new Topic();
@@ -60,6 +64,7 @@ class TopicServiceIT {
         assertThat(topicRepository.findById(saved.getId())).isEmpty();
     }
 
+    // Teste la récupération de tous les topics sous forme de DTO
     @Test
     void getAllTopics_shouldReturnListOfTopicDto() {
         Topic topic = new Topic();

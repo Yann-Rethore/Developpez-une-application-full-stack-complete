@@ -1,3 +1,4 @@
+// Classe de test d'intégration pour le contrôleur TopicController
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.model.Topic;
@@ -18,8 +19,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
+@SpringBootTest // Lance le contexte Spring Boot pour les tests d'intégration
+@Transactional // Chaque test s'exécute dans une transaction isolée
 class TopicControllerIT {
 
     @Autowired
@@ -41,6 +42,7 @@ class TopicControllerIT {
 
     @BeforeEach
     void setUp() {
+        // Prépare un utilisateur et deux thèmes pour les tests
         user = new User();
         user.setUsername("integrationUser");
         user.setAbonnements(new HashSet<>());
@@ -60,11 +62,13 @@ class TopicControllerIT {
         topic2.setAbonnes(new HashSet<>());
         topicRepository.save(topic2);
 
+        // Simule l'utilisateur authentifié
         principal = () -> "integrationUser";
     }
 
     @Test
     void getAllTopics_shouldReturnAllTopics() {
+        // Vérifie que tous les thèmes sont bien retournés
         var topics = topicController.getAllTopics();
         assertThat(topics).hasSizeGreaterThanOrEqualTo(2);
         assertThat(topics.stream().anyMatch(t -> t.getName().equals("Java"))).isTrue();
@@ -72,6 +76,7 @@ class TopicControllerIT {
 
     @Test
     void getUserSubscriptions_shouldReturnEmptyInitially() {
+        // Vérifie qu'aucun abonnement n'est présent initialement
         ResponseEntity<List<Long>> response = topicController.getUserSubscriptions(principal);
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
         assertThat(response.getBody()).isEmpty();
@@ -79,6 +84,7 @@ class TopicControllerIT {
 
     @Test
     void subscribeToTopic_shouldAddSubscription() {
+        // Vérifie que l'abonnement à un thème fonctionne
         ResponseEntity<?> response = topicController.subscribeToTopic(topic1.getId(), principal);
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
 
@@ -91,10 +97,9 @@ class TopicControllerIT {
 
     @Test
     void unsubscribeFromTopic_shouldRemoveSubscription() {
-        // D'abord abonner
+        // Abonne d'abord l'utilisateur, puis vérifie le désabonnement
         topicController.subscribeToTopic(topic2.getId(), principal);
 
-        // Puis désabonner
         ResponseEntity<?> response = topicController.unsubscribeFromTopic(topic2.getId(), principal);
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
 
@@ -104,6 +109,7 @@ class TopicControllerIT {
 
     @Test
     void getUserSubscriptions_shouldReturn401_whenNoPrincipal() {
+        // Vérifie que l'accès sans authentification retourne 401
         ResponseEntity<List<Long>> response = topicController.getUserSubscriptions(null);
         assertThat(response.getStatusCodeValue()).isEqualTo(401);
     }
