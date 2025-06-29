@@ -7,7 +7,7 @@
 
 .form-title {
   text-align: center;
-  padding-top: 48px; // Ajuste la valeur selon le rendu souhaité
+  padding-top: 24px; // Ajuste la valeur selon le rendu souhaité
   margin-bottom: 24px;
   font-size: 2rem;
   font-weight: 500;
@@ -18,6 +18,12 @@
   margin-top: 0;
   font-size: 2rem;
   font-weight: 500;
+}
+
+.article-separator {
+  margin-top: 32px;   // même valeur que la marge sous le bouton submit
+  
+  width: 100%;
 }
 
 .article-form {
@@ -55,7 +61,7 @@ textarea {
   padding: 8px;
   font-size: 1rem;
   border-radius: 6px;           // même arrondi partout
-  border: 1.5px solid #673ab7;  // même couleur partout
+  border: 2.5px solid #673ab7;  // même couleur partout
   margin-bottom: 4px;
   background: #fff;
 }
@@ -97,7 +103,6 @@ textarea {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 32px;
-  margin-top: 32px;
   padding: 0 32px;
 }
 
@@ -148,4 +153,42 @@ textarea {
   border-radius: 6px;
   align-self: center; 
   margin-top: 16px;   
+}
+
+@media (max-width: 900px), (orientation: portrait) {
+  .article-form {
+    width: 100vw;
+    max-width: 100vw;
+    min-width: 0;
+    margin: 0 0 24px 0;
+    padding: 0 4vw;
+    box-sizing: border-box;
+    align-items: stretch;
+  }
+
+  .form-title {
+    width: 100vw;
+    max-width: 100vw;
+    min-width: 0;
+    padding: 0 4vw;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .themes-grid {
+    grid-template-columns: 1fr; // 1 colonne = 1 abonnement par ligne
+    gap: 24px;
+    margin-top: 16px;
+    padding: 0 4vw;
+    width: 100vw;
+    box-sizing: border-box;
+  }
+
+  .theme-card {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 20px 4vw;
+    margin: 0 auto;
+  }
 }
