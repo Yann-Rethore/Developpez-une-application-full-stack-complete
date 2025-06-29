@@ -23,8 +23,14 @@
   height: 48px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left: 24px;   // espace à gauche
+  padding-top: 124px;    // espace sous le header
+  margin-bottom: 24px;  // espace sous la flèche
+  background: transparent;
+  border: none;
 }
+
 
 
 :host {
@@ -39,7 +45,7 @@
   min-width: 280px;
   max-width: 500px;
   margin: 0 auto 24px auto;
-  text-align: left;
+  text-align: center;
   font-size: 2rem;
   font-weight: 500;
 }
@@ -86,7 +92,7 @@ textarea {
   padding: 8px;
   font-size: 1rem;
   border-radius: 6px;           // même arrondi partout
-  border: 1.5px solid #673ab7;  // même couleur partout
+  border: 2.5px solid #673ab7;  // même couleur partout
   margin-bottom: 4px;
   background: #fff;
 }
@@ -122,4 +128,61 @@ textarea {
 
 .success {
   color: #2e7d32;
+}
+
+@media (max-width: 900px), (orientation: portrait) {
+  :host {
+    padding-top: 16px;
+    align-items: stretch;
+  }
+
+  .back-btn {
+    position: static;
+    margin: 0 0 16px 0;
+    padding: 0;
+    align-self: flex-start;
+    left: unset;
+    top: unset;
+    z-index: 1;
+  }
+
+  .back-btn mat-icon {
+    padding: 0;         // Supprime le padding-top
+    margin: 0;          // Supprime le margin-bottom
+  }
+
+  .form-title,
+  .article-form {
+    width: 100vw;
+    min-width: 0;
+    max-width: 100vw;
+    margin: 0 0 24px 0;
+    padding: 0 4vw;
+    box-sizing: border-box;
+  }
+
+  .form-group {
+    width: 100%;
+    padding: 0;
+  }
+
+  select,
+  input,
+  textarea {
+    font-size: 1rem;
+    width: 100%;
+    min-width: 0;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
+  .submit-btn {
+    width: 33vw;           // 1/3 de la largeur de l'écran
+    min-width: 120px;      // largeur minimale pour rester lisible
+    max-width: 300px;      // largeur maximale optionnelle
+    margin: 16px auto 0 auto; // centré horizontalement
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

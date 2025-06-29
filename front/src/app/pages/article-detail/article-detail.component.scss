@@ -1,84 +1,90 @@
-.back-btn {
-  position: fixed;
-  top: 32px;
-  left: 32px;
-  z-index: 100;
-  width: 64px;
-  height: 64px;
-  min-width: 64px;
-  min-height: 64px;
+.page-container {
+  padding: 2vw 0;
+}
+
+.article-header-row {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  background: transparent;
-  border: none;
-  padding: 32px 0 0 0;
+  align-items: flex-start;
+  gap: 1vw;
+  width: 100%;
+}
+
+.back-btn {
+  margin: 0;
+  padding: 0 8px 0 0;
+  align-self: flex-start;
 }
 
 .back-btn mat-icon {
-  font-size: 3rem !important; // Agrandit l’icône
-  line-height: 1;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 2.2rem !important;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
 }
 
-.commentaire-row {
+.article-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.article-main-content h3 {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: normal; // ou adapte selon ton besoin
+  margin-top: 2em;
+  margin-bottom: 1em;
+  line-height: 1.6;
+}
+
+.article-main-content {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  line-height: 1.6;
+}
+
+.commentaire-row,
+.comment-form-row {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 33vw;         // largeur totale du bloc username + commentaire
-  min-width: 320px;
-  max-width: 100%;
-  margin: 0 auto 20px auto;
+  align-items: flex-start;
+  justify-content: flex-start; // contenu à gauche dans la box
+  width: 100%;
+  max-width: 900px;
+  gap: 2vw;
+  margin: 0 auto 2vh auto;    // centre la box dans la page
 }
+
 
 .comment-username {
   color: #333;
-  padding-right: 12px; // espace à droite du nom
+  padding-right: 2vw;
   white-space: nowrap;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
 }
 
 .comment-content {
   background: #f5f5f5;
   border-radius: 8px;
-  padding: 12px 16px;
-  min-height: calc(1.2em * 4);
+  padding: 2vw 3vw;
+  min-height: 3em;
   color: #333;
-  flex :1;
+  flex: 1;
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  margin: 0 auto;
-  text-align: left; // Aligne le texte à gauche
-}
-
-.comment-form-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
-  justify-content: center; // Centre le formulaire horizontalement
-  margin-left: 0;
-  margin-right: 0;
-  justify-content: center; // Centre le texte dans le rectangle
-  text-align: center;
+  justify-content: centert;
+  text-align: left;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
 }
 
 .comment-textarea {
   flex: none;
-  width: 50vw;           
-  min-width: 240px;
-  max-width: 100%;
-  min-height: 80px;
-  max-height: 200px;
-  font-size: 1rem;
-  padding: 12px;
+  width: 100%;
+  max-width: 800px;
+  min-width: 120px;
+  min-height: 8vh;
+  max-height: 30vh;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  padding: 2vw;
   border-radius: 8px;
   border: 1.5px solid #333;
   background: #fafafa;
@@ -86,26 +92,24 @@
   resize: vertical;
   margin-left: 0;
   margin-right: 0;
-  justify-content: center; // Centre le texte dans le rectangle
 }
 
 .comment-submit-btn {
-  margin-left: 8px;
-  color: #673ab7; 
-  width: 64px;
-  height: 64px;
-  min-width: 64px;
-  min-height: 64px;
+  margin-left: 2vw;
+  color: #673ab7;
+  width: clamp(40px, 8vw, 64px);
+  height: clamp(40px, 8vw, 64px);
+  min-width: 40px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .comment-submit-btn mat-icon {
-  font-size: 3rem !important; // Agrandit l’icône
-  line-height: 1;
-  width: 48px;
-  height: 48px;
+  font-size: clamp(1.5rem, 4vw, 3rem) !important;
+  width: clamp(32px, 6vw, 48px);
+  height: clamp(32px, 6vw, 48px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -120,9 +124,115 @@
   transform: rotate(-45deg); // Ajuste l'angle selon l'effet désiré
 }
 
-.page-container {
-  width: 80vw;         // 2/3 de la largeur de la fenêtre
-  margin-left: 15vw;   // 1/6 à gauche
-  margin-right: 5vw;  // 1/6 à droite
-  box-sizing: border-box;
+@media (max-width: 900px), (orientation: portrait) {
+
+  .article-header-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .article-main-content {
+    width: 100%;
+    padding: 0;
+  }
+  .article-main-content h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: clamp(1.1rem, 5vw, 1.5rem);
+    margin-bottom: 8px;
+  }
+.back-btn {
+    margin-bottom: 0;
+    margin-right: 8px;
+    align-self: flex-start;
+  }
+  .article-main-content p {
+    margin: 0 0 8px 0;
+    font-size: 1rem;
+  }
+  .article-main-content h3 {
+    margin: 16px 0 8px 0;
+    font-size: 1.1rem;
+    text-align: left;
+  }
+  .commentaire-row {
+    flex-direction: column;
+    align-items: flex-end;
+    background: #f5f5f5;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    width: 100%;
+    max-width: unset;
+    gap: 0;
+  }
+
+.comment-username {
+    align-self: flex-end;
+    font-size: 0.95rem;
+    color: #673ab7;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+  .comment-content {
+    align-self: stretch;
+    background: none;
+    padding: 0;
+    color: #333;
+    font-size: 1rem;
+    text-align: left;
+  }
+  .comment-form-row {
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    width: 100%;
+    max-width: unset;
+    margin: 16
 }
+  .comment-submit-btn {
+    margin: 0;
+    align-self: center;
+  }
+  .comment-textarea {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    max-width: unset;
+    font-size: 1rem;
+    margin: 0;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1.5px solid #333;
+    background: #fafafa;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+  .article-separator {
+    border: none;
+    border-top: 2px solid #e0e0e0;
+    margin: 24px 0 16px 0;
+    width: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
