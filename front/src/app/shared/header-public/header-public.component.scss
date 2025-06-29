@@ -1,6 +1,6 @@
 .header-nav {
-  height: 80px;
-  min-height: 80px;
+  height: 90px;
+  min-height: 90px;
   display: flex;
   align-items: center;
 }
@@ -8,4 +8,22 @@
 .header-logo {
   display: flex;
   align-items: center;
+}
+
+.header-logo img {
+  height: 72px;   // augmente la hauteur (exemple)
+  width: auto;    // garde le ratio
+  max-height: 72px; // optionnel, limite la taille max
+}
+
+@media (max-width: 900px), (orientation: portrait) {
+  .header-nav {
+    height: 64px;
+    min-height: 64px;
+    padding: 0 4vw;
+  }
+  .header-logo img {
+    height: 48px;
+    max-height: 48px;
+  }
 }

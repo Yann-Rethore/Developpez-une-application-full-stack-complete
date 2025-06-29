@@ -1,15 +1,42 @@
 <nav class="header-nav">
   <div class="header-logo">
-    <img src="/assets/logo_p6.png" alt="LOGO" style="height:40px;">
+    <img src="/assets/logo_p6.png" alt="LOGO">
   </div>
+  <!-- Icône burger visible seulement sur mobile/tablette -->
+  <button class="burger-btn" (click)="menuOpen = true" aria-label="Ouvrir le menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <!-- Liens visibles sur desktop -->
   <div class="header-links">
     <a href="#" class="logout-link" (click)="logout()">Se déconnecter</a>
     <a routerLink="/article/abonnes" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Articles</a>
     <a routerLink="/themes" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Thèmes</a>
     <a routerLink="/profile" title="Profil" routerLinkActive="active-profile" [routerLinkActiveOptions]="{ exact: true }">
-        <span class="icon-circle">
-             <mat-icon>person_outline</mat-icon>
-        </span>
+      <span class="icon-circle">
+        <mat-icon>person_outline</mat-icon>
+      </span>
     </a>
   </div>
+  <!-- Menu latéral mobile -->
+  <div class="side-menu" [class.open]="menuOpen">
+  <button class="close-btn" (click)="menuOpen = false" aria-label="Fermer le menu">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="side-menu-links">
+    <a href="#" class="logout-link" (click)="logout(); menuOpen = false">Se déconnecter</a>
+    <a routerLink="/article/abonnes" (click)="menuOpen = false">Articles</a>
+    <a routerLink="/themes" (click)="menuOpen = false">Thèmes</a>
+  </div>
+  <div class="side-menu-profile">
+    <a routerLink="/profile" (click)="menuOpen = false" title="Profil">
+      <span class="icon-circle">
+        <mat-icon>person_outline</mat-icon>
+      </span>
+    </a>
+  </div>
+</div>
+
+   <!-- Overlay pour fermer le menu en cliquant à côté -->
+  <div class="side-menu-overlay" *ngIf="menuOpen" (click)="menuOpen = false"></div>
 </nav>
+<hr class="article-separator">
