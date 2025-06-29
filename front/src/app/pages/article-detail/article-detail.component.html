@@ -1,45 +1,45 @@
-<button mat-icon-button class="back-btn" (click)="goBack()" aria-label="Retour">
-  <mat-icon>arrow_back</mat-icon>
-</button>
-
 <div class="page-container">
-  <div *ngIf="article$ | async as article">
-    <h2>{{ article.titre }}</h2>
-    <p>Date {{ article.date | date:'short' }} Auteur {{ article.auteurUsername }} Theme {{ article.themeName }}</p>
-    <p>{{ article.contenu }}</p>
-
-    <hr>
-    <h3>Commentaires</h3>
-    <div *ngIf="article.commentaires?.length; else noComments">
-      <div *ngFor="let commentaire of article.commentaires" class="commentaire-row">
-        <span class="comment-username">{{ commentaire.createurUsername }}</span>
-        <div class="comment-content">{{ commentaire.contenu }}</div>
-        <hr>
-      </div>
+  <div class="article-header-row">
+    <button mat-icon-button class="back-btn" (click)="goBack()" aria-label="Retour">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="article-main-content">
+      <ng-container *ngIf="article$ | async as article">
+        <h2>{{ article.titre }}</h2>
+        <p>Date {{ article.date | date:'short' }} Auteur {{ article.auteurUsername }} Theme {{ article.themeName }}</p>
+        <p>{{ article.contenu }}</p>
+        <hr class="article-separator">
+        <div *ngIf="article.commentaires?.length; else noComments">
+          <h3>Commentaires</h3>
+          <div *ngFor="let commentaire of article.commentaires" class="commentaire-row">
+            <span class="comment-username">{{ commentaire.createurUsername }}</span>
+            <div class="comment-content">{{ commentaire.contenu }}</div>
+            <hr>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noComments>
+        <p>Aucun commentaire pour cet article.</p>
+      </ng-template>
+      <form [formGroup]="commentaireForm" (ngSubmit)="ajouterCommentaire()" class="comment-form-row">
+        <textarea
+          formControlName="contenu"
+          placeholder="Écrivez ici votre commentaire"
+          rows="4"
+          class="comment-textarea"
+        ></textarea>
+        <button
+          type="submit"
+          [disabled]="commentaireForm.invalid"
+          class="comment-submit-btn"
+          mat-icon-button
+          color="primary"
+          aria-label="Envoyer"
+        >
+          <mat-icon class="rotate-send">send</mat-icon>
+        </button>
+      </form>
+      <div *ngIf="commentaireSuccess" class="success">Commentaire ajouté !</div>
     </div>
-    <ng-template #noComments>
-      <p>Aucun commentaire pour cet article.</p>
-    </ng-template>
-
-    <h3>Ajouter un commentaire</h3>
-    <form [formGroup]="commentaireForm" (ngSubmit)="ajouterCommentaire()" class="comment-form-row">
-      <textarea
-        formControlName="contenu"
-        placeholder="Écrivez ici votre commentaire"
-        rows="4"
-        class="comment-textarea"
-      ></textarea>
-      <button
-        type="submit"
-        [disabled]="commentaireForm.invalid"
-        class="comment-submit-btn"
-        mat-icon-button
-        color="primary"
-        aria-label="Envoyer"
-      >
-        <mat-icon class="rotate-send">send</mat-icon>
-      </button>
-    </form>
-    <div *ngIf="commentaireSuccess" class="success">Commentaire ajouté !</div>
   </div>
 </div>

@@ -12,6 +12,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+  menuOpen = false;
   /**
    * Constructeur injectant le service d'authentification et le routeur.
    * @param authService Service d'authentification pour vérifier l'état de connexion et déconnecter

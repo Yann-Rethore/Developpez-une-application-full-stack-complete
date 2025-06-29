@@ -1,6 +1,6 @@
 .header-nav {
-  height: 64px;
-  min-height: 64px;
+  height: 90px;
+  min-height: 90px;
   display: flex;
   align-items: center;
 }
@@ -8,6 +8,12 @@
 .header-logo {
   display: flex;
   align-items: center;
+}
+
+.header-logo img {
+  height: 72px;   // augmente la hauteur (exemple)
+  width: auto;    // garde le ratio
+  max-height: 72px; // optionnel, limite la taille max
 }
 
 .header-links {
@@ -51,3 +57,112 @@
 .active-profile .icon-circle mat-icon {
   color: #673ab7; // Couleur primary
 }
+
+.side-menu {
+  display: none;
+}
+
+.side-menu-overlay {
+  display: none;
+}
+
+.burger-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 2.2rem;
+  margin-left: auto;
+}
+
+
+/* Responsive */
+@media (max-width: 900px), (orientation: portrait) {
+  .header-links {
+    display: none;
+  }
+  .burger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+  }
+  .side-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 50vw;
+  max-width: 320px;
+  background: #fff;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.15);
+  padding: 32px 24px 24px 24px;
+  z-index: 1001;
+  transform: translateX(100%);
+  transition: transform 0.3s;
+}
+
+.side-menu.open {
+  transform: translateX(0);
+}
+  .side-menu-links a,
+.side-menu .logout-link {
+  font-size: 1.2rem;
+  color: #333;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.side-menu-profile {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 24px;
+  padding-right: 8px;
+}
+
+.side-menu-profile a {
+  display: flex;
+  align-items: center;
+}
+
+.side-menu .close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  align-self: flex-end;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.side-menu-overlay {
+    display: block;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.2);
+    z-index: 1000;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

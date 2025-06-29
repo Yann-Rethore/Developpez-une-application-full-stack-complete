@@ -2,6 +2,8 @@
   <mat-icon>arrow_back</mat-icon>
 </button>
 
+<img src="assets/logo_p6.png" alt="Logo" class="register-logo" />
+
 <h2 class="centered">Se connecter</h2>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
   <div class="form-group">
@@ -18,7 +20,7 @@
       Champ requis
     </div>
   </div>
-  <button type="submit" class="validation-sbm" color="primary">Se connecter</button>
+  <button type ="submit" mat-raised-button color="primary" class="validation-sbm" >Se connecter</button>
 </form>
 
 <div *ngIf="success$ | async as success" class="centered">
