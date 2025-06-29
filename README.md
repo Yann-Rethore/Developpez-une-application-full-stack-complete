@@ -1,25 +1,85 @@
-# P6-Full-Stack-reseau-dev
+# Developpez-une-application-full-stack-complete - MDD
+
+## Installation du projet
+
+### Créer la BDD
+- Utiliser un éditeur comme **MySQL WorkBench**.
+- Créer une connexion avec :
+  - **Hostname** : `localhost`
+  - **Port** : `3306`
+  - **Username** : `root`
+  - **Password** : à définir
+- Créer ensuite une BBD vide par exemple MDD 
+
+---
 
 ## Front
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+### Cloner le projet
+Dans l’IDE de votre choix, exécutez :
+```sh
+git clone https://github.com/Yann-Rethore/Developpez-une-application-full-stack-complete.git
+```
 
-Don't forget to install your node_modules before starting (`npm install`).
+### Installer les dépendances
+```sh
+cd /front
+npm install
+```
 
-### Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-### Build
+## Back-end
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Cloner et installer le projet
+Dans le terminal de votre IDE
+```sh
+git clone https://github.com/Yann-Rethore/Developpez-une-application-full-stack-complete.git
+cd /back
+mvn install
+```
+### Properties et Back End
 
-### Where to start
+Le fichier properties a été sécurisé et les des données sensibles ne peuxvent être exportées .
+Voici un exemple avec la base de donnée et les autres informations indispensables :
+```sh
+server.port=8080
+spring.profiles.active=test
+spring.jpa.open-in-view=false
 
-As you may have seen if you already started the app, a simple home page containing a logo, a title and a button is available. If you take a look at its code (in the `home.component.html`) you will see that an external UI library is already configured in the project.
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+spring.jpa.show-sql=true
+oc.app.jwtSecret=Votre_Token
+oc.app.jwtExpirationMs=86400000
 
-This library is `@angular/material`, it's one of the most famous in the angular ecosystem. As you can see on their docs (https://material.angular.io/), it contains a lot of highly customizable components that will help you design your interfaces quickly.
+spring.datasource.url=jdbc:mysql://localhost:3306/MDD
+spring.datasource.username=root
+spring.datasource.password=Votre_Mot_De_Passe
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+```
 
-Note: I recommend to use material however it's not mandatory, if you prefer you can get rid of it.
+Le mot de passe de votre base de données et le token seront les votres.
+Il existe des programmes simple en Java pour générer les tokens , en cas de soucis vous pouvez me contacter via openClassRoom
 
-Good luck!
+## Accès au projet
+
+### Lancer le Front-end
+A partir du terminal de votre IDE Front
+```sh
+npm run start
+```
+
+### Lancer la BDD
+A Partir de votre gestionnaire de BDD lancer la base de données de MDD
+
+### Lancer le Back-end
+A partir de votre IDE Java, lancer le projet.
+
+### Accès au site
+Vous pouvez maintenant accèder au site en local à partir de l'adresse : http://localhost:4200/
+L'accès se fera via le bouton s'inscrire ou vous pourrez créer votre utilisateur pour utiliser MDD
+
+Actuelement , il n'y a pas de back office prévu il faudra donc créer dans votre Gestionnaire de BDD au minimum un topic dans la table topics afin de tester l'application jusqu'au bout.
+
+
