@@ -47,7 +47,7 @@ server.port=8080
 spring.profiles.active=test
 spring.jpa.open-in-view=false
 
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+spring.jpa.hibernate.ddl-auto=none
 spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 spring.jpa.show-sql=true
 oc.app.jwtSecret=Votre_Token
@@ -61,6 +61,7 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 Le mot de passe de votre base de données et le token seront les votres.
 Il existe des programmes simple en Java pour générer les tokens , en cas de soucis vous pouvez me contacter via openClassRoom
+spring.jpa.hibernate.ddl-auto devra etre mis à create pour créer les tables à la première utilisation pourra etre mis sur validate par la suite tant qu'cune modification ou ajout de model/table n'est nécessaire.
 
 ## Accès au projet
 
@@ -80,6 +81,6 @@ A partir de votre IDE Java, lancer le projet.
 Vous pouvez maintenant accèder au site en local à partir de l'adresse : http://localhost:4200/
 L'accès se fera via le bouton s'inscrire ou vous pourrez créer votre utilisateur pour utiliser MDD
 
-Actuelement , il n'y a pas de back office prévu il faudra donc créer dans votre Gestionnaire de BDD au minimum un topic dans la table topics afin de tester l'application jusqu'au bout.
+Actuelement , il n'y a pas de back office prévu car il ne s'agit que d'un MVP,  il faudra donc créer dans votre Gestionnaire de BDD au minimum un topic dans la table topics afin de tester l'application jusqu'au bout.
 
 
