@@ -133,7 +133,8 @@
   }
   .article-main-content {
     width: 100%;
-    padding: 0;
+    padding: 0 4vw; 
+    box-sizing: border-box;
   }
   .article-main-content h2 {
     display: flex;
@@ -156,6 +157,13 @@
     font-size: 1.1rem;
     text-align: left;
   }
+
+  .commentaire-row,
+  .comment-form-row {
+    padding: 0 4vw; // Même padding à droite/gauche pour les commentaires et la box de saisie
+    box-sizing: border-box;
+  }
+  
   .commentaire-row {
     flex-direction: column;
     align-items: flex-end;
