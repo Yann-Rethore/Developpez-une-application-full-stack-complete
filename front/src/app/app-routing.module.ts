@@ -9,6 +9,9 @@ import { ArticleComponent } from './pages/article/article.component';
 import { ArticlesAbonnesComponent } from './pages/articles-abonnes/articles-abonnes.component';
 import { ArticleDetailComponent } from './pages/article-detail/article-detail.component';
 import { AuthGuard } from './guards/auth.guard';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ErrorComponent } from './pages/error/error.component';
+
 
 // consider a guard combined with canLoad / canActivate route option
 // to manage unauthenticated user to access private routes
@@ -23,7 +26,10 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'article', component: ArticleComponent, canActivate: [AuthGuard] },
   { path: 'article/abonnes', component: ArticlesAbonnesComponent, canActivate: [AuthGuard] }, // Dynamic route for article details
-  { path: 'article/:id', component: ArticleDetailComponent, canActivate: [AuthGuard] }
+  { path: 'article/:id', component: ArticleDetailComponent, canActivate: [AuthGuard] },
+  { path: 'not-found', component: NotFoundComponent },
+  { path: '**', redirectTo: 'not-found' },
+  { path: 'error', component: ErrorComponent }
 
 ];
 
